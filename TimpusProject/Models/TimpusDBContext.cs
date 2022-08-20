@@ -17,15 +17,14 @@ namespace TimpusProject.Models
         {
         }
 
-        public virtual DbSet<Admin> Admins { get; set; }
-        public virtual DbSet<Cart> Carts { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<Session> Sessions { get; set; }
+        public virtual DbSet<TransacStatus> TransacStatuses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -40,91 +39,64 @@ namespace TimpusProject.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
 
-            modelBuilder.Entity<Admin>(entity =>
+            modelBuilder.Entity<Account>(entity =>
             {
-                entity.Property(e => e.AdminId).HasColumnName("AdminID");
+                entity.Property(e => e.AccountId).HasColumnName("AccountID");
 
-                entity.Property(e => e.Avatar).HasMaxLength(250);
-
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Email).HasMaxLength(250);
 
-                entity.Property(e => e.FullName).HasMaxLength(250);
+                entity.Property(e => e.FullName).HasMaxLength(255);
 
                 entity.Property(e => e.LastLogin).HasColumnType("datetime");
 
-                entity.Property(e => e.Password).HasMaxLength(250);
+                entity.Property(e => e.Password).HasMaxLength(255);
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
 
-                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Username).HasMaxLength(250);
+                entity.Property(e => e.Username).HasMaxLength(255);
 
                 entity.HasOne(d => d.Role)
-                    .WithMany(p => p.Admins)
+                    .WithMany(p => p.Accounts)
                     .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("FK_Admins_Roles");
-            });
-
-            modelBuilder.Entity<Cart>(entity =>
-            {
-                entity.Property(e => e.CartId).HasColumnName("CartID");
-
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-                entity.Property(e => e.SessionId).HasColumnName("SessionID");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Carts)
-                    .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK_Carts_Products");
-
-                entity.HasOne(d => d.Session)
-                    .WithMany(p => p.Carts)
-                    .HasForeignKey(d => d.SessionId)
-                    .HasConstraintName("FK_Carts_Sessions");
+                    .HasConstraintName("FK_Accounts_Roles");
             });
 
             modelBuilder.Entity<Category>(entity =>
             {
-                entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+                entity.HasKey(e => e.CatId);
 
-                entity.Property(e => e.CategoryName).HasMaxLength(250);
+                entity.Property(e => e.CatId).HasColumnName("CatID");
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+                entity.Property(e => e.CatName).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
 
-                entity.Property(e => e.Address).HasMaxLength(250);
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Avatar).HasMaxLength(250);
+                entity.Property(e => e.Email)
+                    .HasMaxLength(150)
+                    .IsFixedLength(true);
 
-                entity.Property(e => e.Birthday).HasColumnType("datetime");
-
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Email).HasMaxLength(250);
-
-                entity.Property(e => e.FullName).HasMaxLength(250);
+                entity.Property(e => e.FullName).HasMaxLength(255);
 
                 entity.Property(e => e.LastLogin).HasColumnType("datetime");
 
-                entity.Property(e => e.Password).HasMaxLength(250);
+                entity.Property(e => e.Password).HasMaxLength(255);
 
                 entity.Property(e => e.Phone)
-                    .HasMaxLength(50)
+                    .HasMaxLength(12)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Username).HasMaxLength(250);
+                entity.Property(e => e.Username).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -135,12 +107,17 @@ namespace TimpusProject.Models
 
                 entity.Property(e => e.OrderDate).HasColumnType("datetime");
 
-                entity.Property(e => e.PaymentMethod).HasMaxLength(250);
+                entity.Property(e => e.TransacStatusId).HasColumnName("TransacStatusID");
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK_Orders_Customers");
+
+                entity.HasOne(d => d.TransacStatus)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.TransacStatusId)
+                    .HasConstraintName("FK_Orders_TransacStatus");
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>
@@ -148,8 +125,6 @@ namespace TimpusProject.Models
                 entity.Property(e => e.OrderDetailId).HasColumnName("OrderDetailID");
 
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
-
-                entity.Property(e => e.OrderedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
@@ -170,25 +145,19 @@ namespace TimpusProject.Models
             {
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
-                entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+                entity.Property(e => e.CatId).HasColumnName("CatID");
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                entity.Property(e => e.DateCreated).HasColumnType("datetime");
+
+                entity.Property(e => e.DateModified).HasColumnType("datetime");
 
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
 
-                entity.Property(e => e.ProductName).HasMaxLength(250);
+                entity.Property(e => e.ProductName).HasMaxLength(255);
 
-                entity.Property(e => e.Slug)
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Thumbnail).HasMaxLength(255);
-
-                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Category)
+                entity.HasOne(d => d.Cat)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.CategoryId)
+                    .HasForeignKey(d => d.CatId)
                     .HasConstraintName("FK_Products_Categories");
             });
 
@@ -196,21 +165,16 @@ namespace TimpusProject.Models
             {
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
 
-                entity.Property(e => e.RoleName).HasMaxLength(250);
+                entity.Property(e => e.RoleName).HasMaxLength(255);
             });
 
-            modelBuilder.Entity<Session>(entity =>
+            modelBuilder.Entity<TransacStatus>(entity =>
             {
-                entity.Property(e => e.SessionId).HasColumnName("SessionID");
+                entity.ToTable("TransacStatus");
 
-                entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
+                entity.Property(e => e.TransacStatusId).HasColumnName("TransacStatusID");
 
-                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Sessions)
-                    .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK_Sessions_Customers");
+                entity.Property(e => e.Status).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

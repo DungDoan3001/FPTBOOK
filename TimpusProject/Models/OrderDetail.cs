@@ -12,7 +12,6 @@ namespace TimpusProject.Models
         public int? ProductId { get; set; }
         public int? Quantity { get; set; }
         public decimal? Total { get; set; }
-        public DateTime? OrderedDate { get; set; }
 
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
