@@ -1,0 +1,140 @@
+﻿@model TimpusProject.Models.Account
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <h2 class="header-title">Delete @Model.Username?</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a href="javascript:void(0)" class="breadcrumb-item">Accounts Management</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Accounts" asp-action="Index">Admin accounts</a>
+            <span class="breadcrumb-item active">Delete @Model.Username?</span>
+        </nav>
+    </div>
+</div>
+
+<a asp-action="index"><p class="h6 font-weight-light text-primary"><i class="anticon anticon-arrow-left"></i> Back to admin accounts</p></a>
+
+
+<div class="alert alert-warning">
+    <div class="d-flex justify-content-start">
+        <span class="alert-icon m-r-20 font-size-30">
+            <i class="anticon anticon-exclamation-circle"></i>
+        </span>
+        <div>
+            <h5 class="alert-heading">Warning</h5>
+            <p>Do you want to delete @Model.FullName?</p>
+            <p>You can not make any changes after delete this user.</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <div class="d-md-flex align-items-center">
+                    <div class="text-center text-sm-left ">
+                        <div class="avatar avatar-image " style="width: 150px; height:150px">
+                            <img alt="avatar" src="@Html.DisplayFor(model => model.Avatar)" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(model => model.FullName)">
+                        </div>
+                    </div>
+                    <div class="text-center text-sm-left m-v-15 p-l-30">
+                        <h2 class="m-b-5">@Html.DisplayFor(model => model.FullName)</h2>
+                        <p class="text-opacity font-size-13">&#64;@Html.DisplayFor(model => model.Username)</p>
+
+                        <p class="text-dark m-b-20">
+                            Role: @if (Model.RoleId == 1)
+                            {
+                                <span class="badge badge-pill badge-purple">@Html.DisplayFor(model => model.Role.RoleName)</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-pill badge-blue">@Html.DisplayFor(model => model.Role.RoleName)</span>
+                            }
+                        </p>
+
+                        @if (Model.Active == false)
+                        {
+                            <p><span class="badge badge-pill badge-red">This account is disabled!</span></p>
+                        }
+                        else
+                        {
+                            <p><span class="badge badge-pill badge-green">This account is activated!</span></p>
+                        }
+
+                        <div class="m-t-15" style="display: inline-flex">
+                            <div class="m-l-0">
+                                <button type="submit" class="btn btn-danger btn-tone" data-toggle="modal" data-target="#delete-account-model">
+                                    <i class="anticon anticon-close-circle"></i>
+                                    <span class="m-l-5">Delete?</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="d-md-block d-none border-left col-1"></div>
+                    <div class="col">
+                        <ul class="list-unstyled m-t-10">
+                            <li class="row">
+                                <p class="col-sm-4 col-4 font-weight-semibold text-dark m-b-5">
+                                    <i class="m-r-10 text-primary anticon anticon-mail"></i>
+                                    <span>Email: </span>
+                                </p>
+                                <p class="col font-weight-semibold"> @Html.DisplayFor(model => model.Email)</p>
+                            </li>
+                            <li class="row">
+                                <p class="col-sm-4 col-4 font-weight-semibold text-dark m-b-5">
+                                    <i class="m-r-10 text-primary anticon anticon-phone"></i>
+                                    <span>Phone: </span>
+                                </p>
+                                <p class="col font-weight-semibold"> @Html.DisplayFor(model => model.Phone)</p>
+                            </li>
+                            <li class="row">
+                                <p class="col-sm-4 col-4 font-weight-semibold text-dark m-b-5">
+                                    <i class="m-r-10 text-primary anticon anticon-info-circle"></i>
+                                    <span>Created at: </span>
+                                </p>
+                                <p class="col font-weight-semibold"> @Html.DisplayFor(model => model.CreateDate)</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-account-model">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-red" id="exampleModalLabel">LAST CHANCE &#10071;&#10071;&#10071;&#10071;</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="anticon anticon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>
+                    Are you sure you want to Remove this user?<br />
+                    You can not make any changes after delete this user.
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="AccountId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

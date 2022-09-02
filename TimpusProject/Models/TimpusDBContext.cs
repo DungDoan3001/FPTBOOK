@@ -165,6 +165,8 @@ namespace TimpusProject.Models
             {
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
 
+                entity.Property(e => e.LableColor).HasMaxLength(50);
+
                 entity.Property(e => e.RoleName).HasMaxLength(255);
             });
 

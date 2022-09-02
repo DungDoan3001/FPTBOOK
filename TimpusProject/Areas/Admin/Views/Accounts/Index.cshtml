@@ -1,0 +1,275 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<TimpusProject.Models.Account>
+
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Admin accounts";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@*@model IEnumerable<TimpusProject.Models.Account>
+
+@{
+    ViewData["Title"] = "Admin accounts";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}*@
+
+
+
+<div class="page-header">
+    <h2 class="header-title">Admin accounts</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Accounts Management</a>
+            <span class="breadcrumb-item active">Admin accounts</span>
+        </nav>
+    </div>
+</div>
+
+
+<div class="page-header no-gutters">
+    <div class="row align-items-md-center">
+        <div class="col-md-6">
+            <div class="media m-v-10">
+                <div class="avatar avatar-purple avatar-icon avatar-square">
+                    <i class="anticon anticon-idcard"></i>
+                </div>
+                <div class="media-body m-l-15">
+                    <h6 class="mb-0">Admins Team</h6>
+                    <span class="mb-0 text-gray font-size-13">Current page: @CurrentPage</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="text-md-right m-v-10">
+                <div class="btn-group">
+                    <button id="list-view-btn" type="button" class="btn btn-default btn-icon">
+                        <i class="anticon anticon-ordered-list"></i>
+                    </button>
+                    <button id="card-view-btn" type="button" class="btn btn-default btn-icon active">
+                        <i class="anticon anticon-appstore"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m-t-30">
+        <div class="col-lg-8">
+            <div class="d-md-flex">
+                <div>
+                    <select class="custom-select" style="min-width: 180px;" id="txtRoleId" name="txtRoleId" asp-items="ViewBag.Roles">
+                        <option value="" disabled selected>Status</option>
+                        <option value="0">All</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 text-right">
+            <a asp-area="Admin" asp-controller="Accounts" asp-action="Create">
+                <button class="btn btn-primary">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Add new account</span>
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-11 mx-auto">
+        <!-- Card View -->
+        <div class="row" id="card-view">
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="m-t-20 text-center">
+                                    <div class="avatar avatar-image" style="height: 100px; width: 100px;">
+                                        <img alt="avatar" src="@item.Avatar" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(modelItem => item.FullName)">
+                                    </div>
+                                    <h4 class="m-t-30">@item.FullName</h4>
+                                    <p>&#64;@item.Username</p>
+                                </div>
+                                <div class="text-center m-t-10">
+                                    @if (item.RoleId == 1)
+                                    {
+                                        <p class="badge badge-pill badge-purple">@item.Role.RoleName</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="badge badge-pill badge-blue">@item.Role.RoleName</p>
+                                    }
+                                </div>
+                                <div class="text-center m-t-10">
+                                    <small>@item.Email</small>
+                                </div>
+                                <div class="text-center m-t-15">
+                                    <a asp-action="Edit" asp-route-id="@item.AccountId">
+                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-success btn-rounded" data-toggle="tooltip" data-placement="left" title="Edit">
+                                            <i class="anticon anticon-edit"></i>
+                                        </div>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.AccountId">
+                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-danger btn-rounded" data-toggle="tooltip" data-placement="right" title="Delete">
+                                            <i class="anticon anticon-close-circle"></i>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="text-center m-t-30">
+                                    <a asp-action="Details" asp-route-id="@item.AccountId" class="btn btn-primary btn-tone">
+                                        <i class="anticon anticon-eye"></i>
+                                        <span class="m-l-5">View profile</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="card text-center" style="width:100%; align-items:center">
+                    <div class="card-body ">
+                        <div aria-label="Page navigation example" class="row">
+                            <ul class="pagination">
+                                <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="Accounts" asp-route-RoleId="@ViewBag.CurrentRoleId" asp-action="Index"></pager>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row d-none" id="list-view">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover dataTable no-footer" id="data-table">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Action</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        int tableIndex = 0;
+                                        foreach (var item in Model)
+                                        {
+
+                                            <tr>
+                                                @{
+                                                    tableIndex += 1;
+                                                }
+                                                <td>@tableIndex</td>
+                                                <td>
+                                                    <div class="media align-items-center">
+                                                        <div class="avatar avatar-image">
+                                                            <img alt="avatar" src="@item.Avatar" data-toggle="tooltip" data-placement="top" title="@item.FullName">
+                                                        </div>
+                                                        <div class="media-body m-l-15">
+                                                            <h6 class="mb-0">@item.FullName</h6>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><i>&#64;@item.Username</i></td>
+                                                <td>@item.Email</td>
+                                                <td class="text-center">
+                                                    @if (item.RoleId == 1)
+                                                    {
+                                                        <p class="badge badge-pill badge-purple">@item.Role.RoleName</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="badge badge-pill badge-blue">@item.Role.RoleName</p>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <a asp-action="Details" asp-route-id="@item.AccountId">
+                                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-primary btn-rounded" data-toggle="tooltip" data-placement="top" title="View profile">
+                                                            <i class="anticon anticon-eye"></i>
+                                                        </div>
+                                                    </a>
+                                                    <a asp-action="Edit" asp-route-id="@item.AccountId">
+                                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-success btn-rounded" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                            <i class="anticon anticon-edit"></i>
+                                                        </div>
+                                                    </a>
+                                                    <a asp-action="Delete" asp-route-id="@item.AccountId">
+                                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                            <i class="anticon anticon-close-circle"></i>
+                                                        </div>
+                                                    </a>
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr class="m-v-25">
+                        <div class="card" style="width:100%;align-items:flex-end; border-style:none">
+                            <div aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="Accounts" asp-route-RoleId="@ViewBag.CurrentRoleId" asp-action="Index"></pager>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            jQuery("#txtRoleId").change(function() {
+                var roleId = jQuery(this).children(":selected").attr("value");
+                roleId = parseFloat(roleId);
+                $('#txtRoleId option')
+                    .removeAttr('selected');
+                $("#txtRoleId > [value=" + roleId + "]").attr("selected", "true");
+
+                $.ajax({
+                    url: '/Admin/Accounts/Filtter',
+                    datatype: "json",
+                    type: "GET",
+                    data: {
+                        RoleId: roleId
+                    },
+                    async: true,
+                    success: function(results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('error');
+                    }
+                });
+            });
+        });
+    </script>   
+}
+
+
+
