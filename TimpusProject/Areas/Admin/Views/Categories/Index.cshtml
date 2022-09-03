@@ -1,0 +1,99 @@
+﻿@model IEnumerable<TimpusProject.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <h2 class="header-title">Categories</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Products Management</a>
+            <span class="breadcrumb-item active">Categories</span>
+        </nav>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-20 m-r-20 justify-content-end">
+            <a asp-area="Admin" asp-controller="Categories" asp-action="Create">
+                <button class="btn btn-secondary btn-tone">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Add new category</span>
+                </button>
+            </a>
+        </div>
+        <table id="data-table" class="table no-fotter text-center">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CatName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Published)
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    int tableIndex = 0;
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            @{
+                                tableIndex += 1;
+                            }
+                            <td>@tableIndex</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CatName)
+                            </td>
+                            <td>
+                                @Html.Raw(item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Published)
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.CatId">
+                                    <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-primary btn-rounded" data-toggle="tooltip" data-placement="top" title="View details">
+                                        <i class="anticon anticon-eye"></i>
+                                    </div>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@item.CatId">
+                                    <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-success btn-rounded" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i class="anticon anticon-edit"></i>
+                                    </div>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.CatId">
+                                    <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <i class="anticon anticon-close-circle"></i>
+                                    </div>
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        $('#data-table').DataTable();
+    </script>
+}

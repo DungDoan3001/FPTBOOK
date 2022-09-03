@@ -1,0 +1,76 @@
+﻿@model TimpusProject.Models.Category
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <h2 class="header-title">@Model.CatName's Details</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a href="javascript:void(0)" class="breadcrumb-item">Products Management</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Categories" asp-action="Index">Categories</a>
+            <span class="breadcrumb-item active">@Model.CatName's Details</span>
+        </nav>
+    </div>
+</div>
+
+
+<a asp-action="index"><p class="h6 font-weight-light text-primary"><i class="anticon anticon-arrow-left"></i> Back to categories</p></a>
+
+<div class="card">
+    <div class="card-body">
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="CatName">Category name :</label>
+                    <input asp-for="CatName" class="form-control" placeholder="Category Name" readonly />
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Published">Category name :</label>
+                    <select asp-for="Published" class="form-control" disabled>
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <textarea id="description" hidden>@Model.Description</textarea>
+                <label for="inputAddress">Description :</label>
+                <div id="editor">
+                </div>
+            </div>
+            <div class="m-t-10" style="display: inline-flex">
+                <div class="m-l-0">
+                    <a asp-action="Edit" asp-route-id="@Model.CatId" class="btn btn-success btn-tone">
+                        <i class="anticon anticon-edit"></i>
+                        <span class="m-l-5">Edit</span>
+                    </a>
+                </div>
+                <div class="m-l-15">
+                    <a asp-action="Delete" asp-route-id="@Model.CatId" class="btn btn-danger btn-tone">
+                        <i class="anticon anticon-close-circle"></i>
+                        <span class="m-l-5">Delete</span>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            readOnly: true,
+        });
+
+        quill.root.innerHTML = jQuery('#description').val();
+
+    </script>
+}
+
+   

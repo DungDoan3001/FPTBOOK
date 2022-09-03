@@ -11,13 +11,13 @@
 
     <!-- page css -->
     <link href="~/admin_assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="~/admin_assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet" />
 
     <!-- Core css -->
     <link href="~/admin_assets/css/app.min.css" rel="stylesheet">
 
     <!-- page css -->
     <link href="~/admin_assets/vendors/datatables/dataTables.bootstrap.min.css" rel="stylesheet">
-
 
 </head>
 
@@ -122,6 +122,9 @@
     <script src="~/admin_assets/js/custom.js"></script>
     <script src="~/admin_assets/js/pages//profile.js"></script>
     <script src="~/admin_assets/vendors/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/admin_assets/vendors/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/admin_assets/vendors/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="~/admin_assets/vendors/quill/quill.min.js"></script>
 
 
     <!-- Core JS -->
@@ -130,6 +133,8 @@
 
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("Table", required: false)
+
 </body>
 
 </html>
