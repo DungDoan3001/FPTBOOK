@@ -14,5 +14,7 @@
 }
 
 
-document.querySelector("#UploadImg").addEventListener("change", readFile);
-document.querySelector('#set-today').value = new Date().toISOString().substr(0, 10);
+$(document).ready(function () {
+    document.querySelector("#UploadImg").addEventListener("change", readFile);
+    document.querySelector('#set-today').value = new Date().toISOString().substr(0, 10);
+});

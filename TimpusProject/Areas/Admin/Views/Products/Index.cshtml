@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<TimpusProject.Models.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Products";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -22,14 +22,14 @@
             <div class="col-lg-8">
                 <div class="d-md-flex">
                     <div class="m-b-10 m-r-15">
-                        <select class="custom-select" style="min-width: 180px;" id="txtCatId" name="txtCatId" asp-items="ViewBag.CatId">
-                            <option selected disabled>Catergory</option>
+                        <select class="select2" style="min-width: 180px;" id="txtCatId" name="txtCatId" asp-items="ViewBag.CatId">
+                            <option selected>Catergory</option>
                             <option value="0">All</option>
                         </select>
                     </div>
                     <div class="m-b-10">
                         <select class="custom-select" style="min-width: 180px;" id="txtActive" name="txtActive" asp-items="ViewBag.Active">
-                            <option selected disabled>Status</option>
+                            <option selected>Status</option>
                             <option value="0">All</option>
                         </select>
                     </div>
@@ -44,86 +44,91 @@
                 </a>
             </div>
         </div>
-        <table id="data-table" class="table text-ceneter">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Product Name</th>
-                    <th>Category</th>
-                    <th>Stock Left</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null)
-                {
-                    int tableIndex = 0;
-                    foreach (var item in Model)
+        <div class="table-responsive">
+            <table id="data-table" class="table text-ceneter">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Stock Left</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
                     {
-                        <tr>
-                            @{
-                                tableIndex += 1;
-                            }
-                            <td>@tableIndex</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img class="img-fluid rounded" src="@item.Thumb" style="max-width: 60px" alt="@item.ProductName">
-                                    <h6 class="m-b-0 m-l-10">@item.ProductName</h6>
-                                </div>
-                            </td>
-                            <td>@item.Cat.CatName</td>
-                            <td>@item.UnitInStock</td>
-                            @if (item.Active != false)
-                            {
+                        int tableIndex = 0;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                @{
+                                    tableIndex += 1;
+                                }
+                                <td>@tableIndex</td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <div class="badge badge-success badge-dot m-r-10"></div>
-                                        <div>Active</div>
+                                        <img class="img-fluid rounded" src="@item.Thumb" style="max-width: 60px" alt="@item.ProductName">
+                                        <h6 class="m-b-0 m-l-10">@item.ProductName</h6>
                                     </div>
                                 </td>
-                            }
-                            else
-                            {
+                                <td>@item.Cat.CatName</td>
+                                <td>@Html.Raw(item.Description)</td>
+                                <td>@item.UnitInStock</td>
+                                @if (item.Active != false)
+                                {
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-success badge-dot m-r-10"></div>
+                                            <div>Active</div>
+                                        </div>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                                            <div>Disabled</div>
+                                        </div>
+                                    </td>
+                                }
                                 <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="badge badge-danger badge-dot m-r-10"></div>
-                                        <div>Disabled</div>
-                                    </div>
+                                    <a asp-action="Details" asp-route-id="@item.ProductId">
+                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-primary btn-rounded" data-toggle="tooltip" data-placement="top" title="View details">
+                                            <i class="anticon anticon-eye"></i>
+                                        </div>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.ProductId">
+                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-success btn-rounded" data-toggle="tooltip" data-placement="top" title="Edit">
+                                            <i class="anticon anticon-edit"></i>
+                                        </div>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.ProductId">
+                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Delete">
+                                            <i class="anticon anticon-close-circle"></i>
+                                        </div>
+                                    </a>
                                 </td>
-                            }
-                            <td>
-                                <a asp-action="Details" asp-route-id="@item.ProductId">
-                                    <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-primary btn-rounded" data-toggle="tooltip" data-placement="top" title="View details">
-                                        <i class="anticon anticon-eye"></i>
-                                    </div>
-                                </a>
-                                <a asp-action="Edit" asp-route-id="@item.ProductId">
-                                    <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-success btn-rounded" data-toggle="tooltip" data-placement="top" title="Edit">
-                                        <i class="anticon anticon-edit"></i>
-                                    </div>
-                                </a>
-                                <a asp-action="Delete" asp-route-id="@item.ProductId">
-                                    <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Delete">
-                                        <i class="anticon anticon-close-circle"></i>
-                                    </div>
-                                </a>
-                            </td>
-                        </tr>
+                            </tr>
+                        }
                     }
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>#</th>
-                    <th>Product Name</th>
-                    <th>Category</th>
-                    <th>Stock Left</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </tfoot>
-        </table>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Stock Left</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -134,6 +139,7 @@
 @section Scripts {
     <script>
         $('#data-table').DataTable();
+        $('.select2').select2();
 
         $(document).ready(function() {
             jQuery("#txtCatId").change(function() {

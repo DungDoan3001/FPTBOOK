@@ -1,7 +1,7 @@
 ﻿@model TimpusProject.Models.Account
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.FullName + "'s Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -24,7 +24,7 @@
         <div class="row align-items-center">
             <div class="col-md-7">
                 <div class="d-md-flex align-items-center">
-                    <div class="text-center text-sm-left "> 
+                    <div class="text-center text-sm-left ">
                         <div class="avatar avatar-image " style="width: 150px; height:150px">
                             <img alt="avatar" src="@Html.DisplayFor(model => model.Avatar)" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(model => model.FullName)">
                         </div>
@@ -33,10 +33,12 @@
                         <h2 class="m-b-5">@Html.DisplayFor(model => model.FullName)</h2>
                         <p class="text-opacity font-size-13">&#64;@Html.DisplayFor(model => model.Username)</p>
 
-                        <p class="text-dark m-b-20">Role: @if (Model.RoleId == 1)
+                        <p class="text-dark m-b-20">
+                            Role: @if (Model.RoleId == 1)
                             {
                                 <span class="badge badge-pill badge-purple">@Html.DisplayFor(model => model.Role.RoleName)</span>
-                            } else
+                            }
+                            else
                             {
                                 <span class="badge badge-pill badge-blue">@Html.DisplayFor(model => model.Role.RoleName)</span>
                             }
@@ -45,11 +47,12 @@
                         @if (Model.Active == false)
                         {
                             <p><span class="badge badge-pill badge-red">This account is disabled!</span></p>
-                        } else
+                        }
+                        else
                         {
                             <p><span class="badge badge-pill badge-green">This account is activated!</span></p>
                         }
-                        
+
                         <div class="m-t-15" style="display: inline-flex">
                             <div class="m-l-0">
                                 <a asp-action="Edit" asp-route-id="@Model.AccountId" class="btn btn-success btn-tone">
@@ -75,21 +78,21 @@
                             <li class="row">
                                 <p class="col-sm-4 col-4 font-weight-semibold text-dark m-b-5">
                                     <i class="m-r-10 text-primary anticon anticon-mail"></i>
-                                    <span>Email: </span> 
+                                    <span>Email: </span>
                                 </p>
                                 <p class="col font-weight-semibold"> @Html.DisplayFor(model => model.Email)</p>
                             </li>
                             <li class="row">
                                 <p class="col-sm-4 col-4 font-weight-semibold text-dark m-b-5">
                                     <i class="m-r-10 text-primary anticon anticon-phone"></i>
-                                    <span>Phone: </span> 
+                                    <span>Phone: </span>
                                 </p>
                                 <p class="col font-weight-semibold"> @Html.DisplayFor(model => model.Phone)</p>
                             </li>
                             <li class="row">
                                 <p class="col-sm-4 col-4 font-weight-semibold text-dark m-b-5">
                                     <i class="m-r-10 text-primary anticon anticon-info-circle"></i>
-                                    <span>Created at: </span> 
+                                    <span>Created at: </span>
                                 </p>
                                 <p class="col font-weight-semibold"> @Html.DisplayFor(model => model.CreateDate)</p>
                             </li>

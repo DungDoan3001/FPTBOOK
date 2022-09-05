@@ -1,0 +1,106 @@
+﻿@model IEnumerable<TimpusProject.Models.Customer>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <h2 class="header-title">Admin accounts</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Accounts Management</a>
+            <span class="breadcrumb-item active">Customer accounts</span>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="row-ls m-t-20 m-r-25 text-right">
+            <a asp-area="Admin" asp-controller="Customers" asp-action="Create">
+                <button class="btn btn-primary">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Add new account</span>
+                </button>
+            </a>
+        </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="data-table" class="table text-center">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Active</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        var tableIndex = 0;
+                        @foreach (var item in Model)
+                        {
+                            tableIndex += 1;
+                            <tr>
+                                <td>@tableIndex</td>
+                                <td>
+                                    <div class="avatar avatar-image avatar-lg">
+                                        <img src="@item.Avatar" alt="">
+                                    </div>
+                                    @Html.DisplayFor(modelItem => item.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Phone)
+                                </td>
+                                @if (item.Active != false)
+                                {
+                                    <td>
+                                        <span class="badge badge-pill badge-green text-lg-center">Active</span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <span class="badge badge-pill badge-red text-lg-center">Disabled</span>
+                                    </td>
+                                }
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.CustomerId">
+                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-primary btn-rounded" data-toggle="tooltip" data-placement="top" title="View profile">
+                                            <i class="anticon anticon-eye"></i>
+                                        </div>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.CustomerId">
+                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-success btn-rounded" data-toggle="tooltip" data-placement="top" title="Edit">
+                                            <i class="anticon anticon-edit"></i>
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>...</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        $('#data-table').DataTable();
+    </script>
+}

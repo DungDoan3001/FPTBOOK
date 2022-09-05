@@ -1,85 +1,189 @@
 ﻿@model TimpusProject.Models.Product
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.ProductName + "'s Details";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="page-header">
+    <h2 class="header-title">@Model.ProductName's Details</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a href="javascript:void(0)" class="breadcrumb-item">Products Management</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
+            <span class="breadcrumb-item active">@Model.ProductName's Details</span>
+        </nav>
+    </div>
+</div>
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Thumb)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Thumb)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateModified)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateModified)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BestSellers)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BestSellers)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HomeFlag)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HomeFlag)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Active)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Active)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UnitInStock)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UnitInStock)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cat)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cat.CatId)
-        </dd>
-    </dl>
+
+<a asp-action="index"><p class="h6 font-weight-light text-primary"><i class="anticon anticon-arrow-left"></i> Back to products</p></a>
+
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="media align-items-center m-b-15">
+            <div class="avatar avatar-image rounded" style="height: 100px; width: 100px">
+                <img src="@Model.Thumb" alt="@Model.ProductName" id="ImgPreview">
+            </div>
+            <div class="m-l-15">
+                <h4 class="m-b-0">@Model.ProductName</h4>
+                <p class="text-muted m-b-0">Code: #@Model.ProductId</p>
+                <div class="m-t-10">
+                    <a asp-action="Edit" asp-controller="Products" asp-area="Admin" asp-route-id="@Model.ProductId">
+                        <label class="btn btn-tone btn-success">
+                            Edit
+                        </label>
+                    </a>
+
+                    <a asp-action="Delete" asp-controller="Products" asp-area="Admin" asp-route-id="@Model.ProductId">
+                        <label class="btn btn-tone btn-danger m-l-10">
+                            Delete
+                        </label>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">Basic Info</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#product-edit-option">Option Info</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#product-edit-description">Description</a>
+        </li>
+    </ul>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="tab-content m-t-15">
+    <div class="tab-pane fade show active" id="product-edit-basic">
+        <div class="card">
+            <div class="card-body">
+                <!-- ProductName -->
+                <div class="form-group">
+                    <label asp-for="ProductName" class="font-weight-semibold control-label">Product Name</label>
+                    <input asp-for="ProductName" type="text" placeholder="Product Name" class="form-control" readonly />
+                </div>
+                <!-- EOF ProductName -->
+                <!-- Price -->
+                <div class="form-group">
+                    <label class="font-weight-semibold control-label" asp-for="Price">Price</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input asp-for="Price" class="form-control" aria-label="Amount (to the nearest dollar)" readonly>
+                    </div>
+                </div>
+                <!-- EOF Price -->
+                <!-- Category -->
+                <div class="form-group">
+                    <label asp-for="CatId" class="font-weight-semibold control-label">Category</label>
+                    <select asp-for="CatId" class="select2" asp-items="ViewBag.CatId" disabled></select>
+                </div>
+                <!-- EOF Category -->
+                <div class="form-row">
+                    <div class="col-6">
+                        <!-- DateCreated -->
+                        <div class="form-group">
+                            <label asp-for="DateCreated" class="control-label"></label>
+                            <input asp-for="DateCreated" class="form-control" readonly />
+                        </div>
+                        <!-- EOF DateCreated -->
+                    </div>
+                    <div class="col-6">
+                        <!-- DateModified -->
+                        <div class="form-group">
+                            <label asp-for="DateModified" class="control-label"></label>
+                            <input asp-for="DateModified" type="date" id="set-today" value="" class="form-control" readonly />
+                        </div>
+                        <!-- EOF DateModified -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="product-edit-option">
+        <div class="card">
+            <div class="card-body">
+                <!-- Active -->
+                <div class="form-group d-flex align-items-center">
+                    <input asp-for="Active" id="checkActive" hidden />
+                    <label asp-for="Active">Active : </label>
+                    <div class="switch m-l-10">
+                        <input type="checkbox" id="switch-1" disabled="">
+                        <label for="switch-1"></label>
+                    </div>
+                </div>
+                <!-- EOF Active -->
+                <!-- BestSellers -->
+                <div class="form-group d-flex align-items-center">
+                    <input asp-for="HomeFlag" id="checkHomeFlag" hidden />
+                    <label asp-for="HomeFlag">Home Flag : </label>
+                    <div class="switch m-l-10">
+                        <input type="checkbox" id="switch-2" disabled="">
+                        <label for="switch-2"></label>
+                    </div>
+                </div>
+                <!-- EOF BestSellers -->
+                <!-- HomeFlag -->
+                <div class="form-group d-flex align-items-center">
+                    <input asp-for="BestSellers" id="checkBestSellers" hidden />
+                    <label asp-for="BestSellers">Best Sellers : </label>
+                    <div class="switch m-l-10">
+                        <input type="checkbox" id="switch-3" disabled="">
+                        <label for="switch-3"></label>
+                    </div>
+                </div>
+                <!-- EOF HomeFlag -->
+                <!-- UnitInStock -->
+                <div class="form-group">
+                    <label asp-for="UnitInStock" class="control-label">Unit In Stock : </label>
+                    <input asp-for="UnitInStock" class="form-control" style="max-width: 150px;" readonly />
+                </div>
+                <!-- EOF UnitInStock -->
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="product-edit-description">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group" hidden>
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" id="description" class="form-control" />
+                </div>
+                <div id="editor">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+@section Scripts {
+    <script>
+        function checkboxItems(inputId, inputSwitch) {
+            if ($(inputId).val() == "True") {
+                $(inputSwitch).attr("checked", true);
+            } else $(inputSwitch).attr("checked", false);
+        }
+
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            readOnly: true,
+        });
+        $('.select2').select2();
+
+
+        quill.root.innerHTML = jQuery('#description').val();
+
+        $(document).ready(function() {
+            checkboxItems('#checkActive', '#switch-1');
+            checkboxItems('#checkHomeFlag', '#switch-2');
+            checkboxItems('#checkBestSellers', '#switch-3');
+        });
+    </script>
+}

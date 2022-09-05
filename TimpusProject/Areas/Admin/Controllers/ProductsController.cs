@@ -137,13 +137,14 @@ namespace TimpusProject.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatName", product.CatId);
             return View(product);
         }
 
         // GET: Admin/Products/Create
         public IActionResult Create()
         {
-            ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatId");
+            ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatName");
             return View();
         }
 
@@ -177,7 +178,7 @@ namespace TimpusProject.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatId", product.CatId);
+            ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatName", product.CatId);
             return View(product);
         }
 
