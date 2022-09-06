@@ -51,7 +51,7 @@
                         <th>#</th>
                         <th>Product Name</th>
                         <th>Category</th>
-                        <th>Description</th>
+                        <th>Small Description</th>
                         <th>Stock Left</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -75,7 +75,7 @@
                                     </div>
                                 </td>
                                 <td>@item.Cat.CatName</td>
-                                <td>@Html.Raw(item.Description)</td>
+                                <td>@Html.Raw(item.SmallDescription)</td>
                                 <td>@item.UnitInStock</td>
                                 @if (item.Active != false)
                                 {
@@ -84,6 +84,20 @@
                                             <div class="badge badge-success badge-dot m-r-10"></div>
                                             <div>Active</div>
                                         </div>
+                                        @if (item.HomeFlag == true)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge badge-secondary badge-dot m-r-10"></div>
+                                                <div>HomeFlag</div>
+                                            </div>
+                                        }
+                                        @if(item.BestSellers == true)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge badge-warning badge-dot m-r-10"></div>
+                                                <div>BestSellers</div>
+                                            </div>
+                                        }
                                     </td>
                                 }
                                 else
@@ -93,6 +107,20 @@
                                             <div class="badge badge-danger badge-dot m-r-10"></div>
                                             <div>Disabled</div>
                                         </div>
+                                        @if (item.HomeFlag == true)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge badge-secondary badge-dot m-r-10"></div>
+                                                <div>HomeFlag</div>
+                                            </div>
+                                        }
+                                        @if(item.BestSellers == true)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge badge-warning badge-dot m-r-10"></div>
+                                                <div>BestSellers</div>
+                                            </div>
+                                        }
                                     </td>
                                 }
                                 <td>

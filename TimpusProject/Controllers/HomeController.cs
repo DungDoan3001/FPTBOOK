@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,39 @@ namespace TimpusProject.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly TimpusDBContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, TimpusDBContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
+            var lsHomeFlagProducts = _context.Products
+            .AsNoTracking()
+            .Where(product => product.Active == true)
+            .Where(product => product.HomeFlag == true)
+            .Include(product => product.Cat)
+            .OrderByDescending(product => product.DateModified)
+            .ToList();
+
+            var lsBestSellers = _context.Products
+            .AsNoTracking()
+            .Where(product => product.Active == true)
+            .Where(product => product.BestSellers == true)
+            .Include(product => product.Cat)
+            .OrderByDescending(product => product.DateModified)
+            .ToList();
+
+            var lsCategories = _context.Categories
+            .AsNoTracking()
+            .ToList();
+
+            ViewData["HomeFlag"] = lsHomeFlagProducts;
+            ViewData["BestSellers"] = lsBestSellers;
+            ViewData["Categories"] = lsCategories;
             return View();
         }
 
@@ -30,11 +56,22 @@ namespace TimpusProject.Controllers
 
         public IActionResult About()
         {
+            var lsCategories = _context.Categories
+            .AsNoTracking()
+            .ToList();
+
+            ViewData["Categories"] = lsCategories;
+
             return View();
         }
 
         public IActionResult Contact()
         {
+            var lsCategories = _context.Categories
+            .AsNoTracking()
+            .ToList();
+
+            ViewData["Categories"] = lsCategories;
             return View();
         }
 

@@ -151,11 +151,17 @@
     <div class="tab-pane fade" id="product-edit-description">
         <div class="card">
             <div class="card-body">
-                <div class="form-group" hidden>
-                    <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" id="description" class="form-control" />
+                <div class="form-group" >
+                    <label asp-for="Description" class="control-label">Description</label>
+                    <input asp-for="Description" id="description" class="form-control" hidden/>
                 </div>
                 <div id="editor">
+                </div>
+                <div class="form-group" >
+                    <label asp-for="SmallDescription" class="control-label">Small Description</label>
+                    <input asp-for="SmallDescription" id="smdescription" class="form-control" hidden/>
+                </div>
+                <div id="smDes">
                 </div>
             </div>
         </div>
@@ -175,10 +181,16 @@
             theme: 'snow',
             readOnly: true,
         });
+        var quillSMDes = new Quill('#smDes', {
+            theme: 'snow',
+            placeholder: 'Enter the product small description',
+            readOnly: true,
+        });
         $('.select2').select2();
 
 
         quill.root.innerHTML = jQuery('#description').val();
+        quillSMDes.root.innerHTML = jQuery('#smdescription').val();
 
         $(document).ready(function() {
             checkboxItems('#checkActive', '#switch-1');

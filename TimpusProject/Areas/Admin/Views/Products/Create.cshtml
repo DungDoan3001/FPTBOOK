@@ -95,7 +95,7 @@
                         <select asp-for="CatId" class="select2" asp-items="ViewBag.CatId">
                             <option>Category</option>
                         </select>
-                        
+
                         <span asp-validation-for="CatId" class="text-danger"></span>
                     </div>
                     <!-- EOF Category -->
@@ -113,7 +113,7 @@
                             <!-- DateModified -->
                             <div class="form-group">
                                 <label asp-for="DateModified" class="control-label"></label>
-                                <input asp-for="DateModified" class="form-control" readonly />
+                                <input asp-for="DateModified" id="set-today" class="form-control" readonly />
                                 <span asp-validation-for="DateModified" class="text-danger"></span>
                             </div>
                             <!-- EOF DateModified -->
@@ -171,12 +171,21 @@
         <div class="tab-pane fade" id="product-edit-description">
             <div class="card">
                 <div class="card-body">
-                    <div class="form-group" hidden>
-                        <label asp-for="Description" class="control-label"></label>
-                        <input asp-for="Description" id="description" class="form-control" />
+                    <div class="form-group" >
+                        <label asp-for="Description" class="font-weight-semibold m-b-0 control-label">Description</label>
+                        <input asp-for="Description" id="description" class="form-control" hidden/>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div id="editor">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group" >
+                        <label asp-for="SmallDescription" class="font-weight-semibold m-t-20 m-b-0 control-label">Small Description</label>
+                        <input asp-for="SmallDescription" id="smdescription" class="form-control" hidden/>
+                        <span asp-validation-for="SmallDescription" class="text-danger"></span>
+                    </div>
+                    <div id="smDes">
                     </div>
                 </div>
             </div>
@@ -206,12 +215,18 @@
 
         var quill = new Quill('#editor', {
             theme: 'snow',
-            placeholder: 'Enter the category description',
+            placeholder: 'Enter the product description',
+        });
+        var quillSMDes = new Quill('#smDes', {
+            theme: 'snow',
+            placeholder: 'Enter the product small description',
         });
         $('.select2').select2();
 
 
         quill.root.innerHTML = jQuery('#description').val();
+        quillSMDes.root.innerHTML = jQuery('#smdescription').val();
+
 
         $(document).ready(function() {
             checkboxItems('#checkActive', '#switch-1');
@@ -223,9 +238,14 @@
             changeInputItems('#checkBestSellers', '#switch-3')
 
             jQuery('#editor').keyup(function() {
-                var myhtml = quill.root.innerHTML;
-                console.log(myhtml);
-                jQuery('#description').val(myhtml);
+                var des = quill.root.innerHTML;
+                console.log(des);
+                jQuery('#description').val(des);
+            });
+            jQuery('#smDes').keyup(function() {
+                var smdes = quillSMDes.root.innerHTML;
+                console.log(smdes);
+                jQuery('#smdescription').val(smdes);
             });
         });
     </script>

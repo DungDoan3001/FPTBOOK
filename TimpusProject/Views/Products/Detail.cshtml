@@ -11,38 +11,28 @@
         <div class="row">
             <div class="col-lg-5 mt-5">
                 <div class="card mb-3">
-                    <img class="card-img img-fluid" src="~/assets/img/product_single_10.jpg" alt="Card image cap" id="product-detail">
+                    <img class="card-img img-fluid" src="@Model.Thumb" alt="Card image cap" id="product-detail">
                 </div>
             </div>
             <!-- col end -->
             <div class="col-lg-7 mt-5">
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="h2">Active Wear</h1>
-                        <p class="h3 py-2">$25.00</p>
+                        <h1 class="h2">@Model.ProductName</h1>
+                        <p class="h3 py-2">$ @Model.Price</p>
                         <ul class="list-inline">
                             <li class="list-inline-item">
                                 <h6>Category:</h6>
                             </li>
                             <li class="list-inline-item">
-                                <p class="text-muted"><strong>Easy Wear</strong></p>
+                                <p class="text-muted"><strong>@Model.Cat.CatName</strong></p>
                             </li>
                         </ul>
 
                         <h6>Description:</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse. Donec condimentum elementum convallis. Nunc sed orci a diam ultrices aliquet interdum quis nulla.</p>
-
-                        <h6>Specification:</h6>
-                        <ul class="list-unstyled pb-3">
-                            <li>Lorem ipsum dolor sit</li>
-                            <li>Amet, consectetur</li>
-                            <li>Adipiscing elit,set</li>
-                            <li>Duis aute irure</li>
-                            <li>Ut enim ad minim</li>
-                            <li>Dolore magna aliqua</li>
-                            <li>Excepteur sint</li>
-                        </ul>
-
+                        
+@*                        @Html.Raw(@Model.Description)
+*@
                         <form action="" method="GET">
                             <input type="hidden" name="product-title" value="Activewear">
                             <div class="row">

@@ -153,7 +153,7 @@ namespace TimpusProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Description,CatId,Price,Thumb,DateCreated,DateModified,BestSellers,HomeFlag,Active,UnitInStock")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Description,CatId,Price,Thumb,DateCreated,DateModified,BestSellers,HomeFlag,Active,UnitInStock,SmallDescription")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -187,7 +187,7 @@ namespace TimpusProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Description,CatId,Price,Thumb,DateCreated,DateModified,BestSellers,HomeFlag,Active,UnitInStock")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Description,CatId,Price,Thumb,DateCreated,DateModified,BestSellers,HomeFlag,Active,UnitInStock,SmallDescription")] Product product)
         {
             if (id != product.ProductId)
             {

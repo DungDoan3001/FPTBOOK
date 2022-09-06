@@ -42,16 +42,16 @@
                             <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="About">About</a>
+                            <a class="nav-link" asp-action="About" asp-controller="Home">About</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Products" asp-action="Index">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="Contact">Contact</a>
+                            <a class="nav-link" asp-action="Contact" asp-controller="Home">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -128,13 +128,10 @@
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Products</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Luxury</a></li>
-                        <li><a class="text-decoration-none" href="#">Sport Wear</a></li>
-                        <li><a class="text-decoration-none" href="#">Men's Shoes</a></li>
-                        <li><a class="text-decoration-none" href="#">Women's Shoes</a></li>
-                        <li><a class="text-decoration-none" href="#">Popular Dress</a></li>
-                        <li><a class="text-decoration-none" href="#">Gym Accessories</a></li>
-                        <li><a class="text-decoration-none" href="#">Sport Shoes</a></li>
+                        @for(int i=0; i< ViewBag.Categories.Count; i++)
+                        {
+                            <li><a class="text-decoration-none" href="#">@ViewBag.Categories[i].CatName</a></li>
+                        }
                     </ul>
                 </div>
 

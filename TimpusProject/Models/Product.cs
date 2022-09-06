@@ -24,6 +24,7 @@ namespace TimpusProject.Models
         public bool? HomeFlag { get; set; }
         public bool? Active { get; set; }
         public int? UnitInStock { get; set; }
+        public string SmallDescription { get; set; }
 
         public virtual Category Cat { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
