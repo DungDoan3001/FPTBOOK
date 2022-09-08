@@ -75,10 +75,6 @@ namespace TimpusProject.Models
                 entity.ToTable("Author");
 
                 entity.Property(e => e.AuthorId).HasColumnName("AuthorID");
-
-                entity.Property(e => e.Biography)
-                    .HasMaxLength(10)
-                    .IsFixedLength(true);
             });
 
             modelBuilder.Entity<AuthorProduct>(entity =>
@@ -213,9 +209,7 @@ namespace TimpusProject.Models
             {
                 entity.ToTable("Publisher");
 
-                entity.Property(e => e.PublisherId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("PublisherID");
+                entity.Property(e => e.PublisherId).HasColumnName("PublisherID");
 
                 entity.Property(e => e.FullName).HasMaxLength(250);
             });

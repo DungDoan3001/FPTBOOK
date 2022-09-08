@@ -24,7 +24,7 @@ namespace TimpusProject.Controllers
         public IActionResult Index(int page = 1, int CatId = 0)
         {
             var pageNumber = page;
-            var pageSize = 12;
+            var pageSize = 6;
 
             var lsCategories = _context.Categories
             .AsNoTracking()
@@ -63,7 +63,12 @@ namespace TimpusProject.Controllers
 
             var product = _context.Products
             .Include(product => product.Cat)
+            .Include(product => product.Publisher)
             .FirstOrDefault(product => product.ProductId == id);
+
+            var authors = _context.AuthorProducts
+                .Include(authors => authors.Author)
+                .ToList();
 
             if (product == null)
             {
@@ -71,6 +76,7 @@ namespace TimpusProject.Controllers
             }
 
             ViewData["Categories"] = lsCategories;
+            ViewData["Authors"] = authors;
 
             return View(product);
         }
