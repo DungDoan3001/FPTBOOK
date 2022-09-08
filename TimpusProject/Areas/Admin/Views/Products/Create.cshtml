@@ -89,6 +89,20 @@
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                     <!-- EOF Price -->
+                    <!-- ISBN -->
+                    <div class="form-group">
+                        <label asp-for="Isbn" class="font-weight-semibold control-label">ISBN</label>
+                        <input asp-for="Isbn" type="text" placeholder="Product Name" class="form-control" />
+                        <span asp-validation-for="Isbn" class="text-danger"></span>
+                    </div>
+                    <!-- EOF ISBN -->
+                    <!-- Publisher -->
+                    <div class="form-group">
+                        <label asp-for="PublisherId" class="font-weight-semibold control-label">Publisher</label>
+                        <select asp-for="PublisherId" class="publisher" asp-items="ViewBag.PublisherId"></select>
+                        <span asp-validation-for="PublisherId" class="text-danger"></span>
+                    </div>
+                    <!-- EOF Publisher -->
                     <!-- Category -->
                     <div class="form-group">
                         <label asp-for="CatId" class="font-weight-semibold control-label">Category</label>
@@ -236,6 +250,7 @@
             placeholder: 'Enter the product small description',
         });
         $('.select2').select2();
+        $('.publisher').select2();
         $('.authors').select2();
 
         quill.root.innerHTML = jQuery('#description').val();

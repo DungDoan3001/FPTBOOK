@@ -22,6 +22,14 @@
                         <p class="h3 py-2">$ @Model.Price</p>
                         <ul class="list-inline">
                             <li class="list-inline-item">
+                                <h6>ISBN:</h6>
+                            </li>
+                            <li class="list-inline-item">
+                                <p class="text-muted"><strong>#@Model.Isbn</strong></p>
+                            </li>
+                        </ul>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
                                 <h6>Category:</h6>
                             </li>
                             <li class="list-inline-item">
@@ -44,7 +52,7 @@
                             {
                                 <li class="list-inline-item">
                                     <img src="@ViewBag.Authors[i].Author.Avatar" class="rounded-circle" style="width: 50px;"
-                                     alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="top" title="@ViewBag.Authors[i].Author.FullName" />
+                                     alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="top" title="@ViewBag.Authors[i].Author.AuthorName" />
                                 </li>
                             }
                         </ul>

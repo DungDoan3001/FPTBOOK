@@ -141,18 +141,27 @@ namespace TimpusProject.Areas.Admin.Controllers
                 .Include(p => p.Cat)
                 .Include(p => p.AuthorProducts)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
-            var authors = _context.AuthorProducts
-                .Include(p => p.Author)
-                .Where(p => p.ProductId == id)
-                .ToList();
+
 
             if (product == null)
             {
                 return NotFound();
             }
 
+            var selected_authors = _context.AuthorProducts
+                .AsNoTracking()
+                .Where(author => author.ProductId == id)
+                .Include(author => author.Author)
+                .ToList();
+
+            var authors = _context.Authors
+                           .AsNoTracking()
+                           .ToList();
+
+            ViewData["SelectedAuthor"] = selected_authors;
+            ViewData["Authors"] = authors;
             ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatName", product.CatId);
-            ViewData["Author"] = authors;
+            ViewData["PublisherId"] = new SelectList(_context.Publishers, "PublisherId", "FullName", product.PublisherId);
             return View(product);
         }
 
@@ -165,6 +174,7 @@ namespace TimpusProject.Areas.Admin.Controllers
 
             ViewData["Authors"] = authors;
             ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatName");
+            ViewData["PublisherId"] = new SelectList(_context.Publishers, "PublisherId", "FullName");
             return View();
         }
 
@@ -173,20 +183,32 @@ namespace TimpusProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Description,CatId,Price,Thumb,DateCreated,DateModified,BestSellers,HomeFlag,Active,UnitInStock,SmallDescription")] Product product, List<string> authors)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,Description,CatId,Price,Thumb,DateCreated,DateModified,BestSellers,HomeFlag,Active,UnitInStock,SmallDescription,PublisherId,Isbn")] Product product, List<int> authors)
         {
             if (ModelState.IsValid)
             {
-                foreach(var author in authors)
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+
+                var addedProduct = _context.Products
+                    .OrderByDescending(product => product.ProductId)
+                    .First();
+                
+                if (authors != null)
                 {
-                    Console.WriteLine(author);
+                    foreach (var author in authors)
+                    {
+                        var author_product = new AuthorProduct { ProductId = addedProduct.ProductId, AuthorId = author };
+                        _context.AuthorProducts.Add(author_product);
+                    }
                 }
-                _context.Add(product);
+
                 await _context.SaveChangesAsync();
                 _notifyService.Success("Create successfully!");
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatId", product.CatId);
+            ViewData["PublisherId"] = new SelectList(_context.Publishers, "PublisherId", "FullName", product.PublisherId);
             return View(product);
         }
 
@@ -203,7 +225,22 @@ namespace TimpusProject.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            var selected_authors = _context.AuthorProducts
+                .AsNoTracking()
+                .Where(author => author.ProductId == id)
+                .Include(author => author.Author)
+                .ToList();
+
+            var authors = _context.Authors
+                           .AsNoTracking()
+                           .ToList();
+
+            ViewData["SelectedAuthor"] = selected_authors;
+            ViewData["Authors"] = authors;
             ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatName", product.CatId);
+            ViewData["PublisherId"] = new SelectList(_context.Publishers, "PublisherId", "FullName", product.PublisherId);
+
             return View(product);
         }
 
@@ -212,7 +249,7 @@ namespace TimpusProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Description,CatId,Price,Thumb,DateCreated,DateModified,BestSellers,HomeFlag,Active,UnitInStock,SmallDescription")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Description,CatId,Price,Thumb,DateCreated,DateModified,BestSellers,HomeFlag,Active,UnitInStock,SmallDescription,PublisherId,Isbn")] Product product, List<int> authors)
         {
             if (id != product.ProductId)
             {
@@ -223,6 +260,19 @@ namespace TimpusProject.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (authors != null)
+                    {
+                        var author_product_ls = _context.AuthorProducts.Where(author => author.ProductId == id).ToList();
+                        foreach(var item in author_product_ls)
+                        {
+                            _context.AuthorProducts.Remove(item);
+                        }
+                        foreach (var author in authors)
+                        {
+                            var author_product_edit = new AuthorProduct { ProductId = product.ProductId, AuthorId = author };
+                            _context.AuthorProducts.Add(author_product_edit);
+                        }
+                    }
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                     _notifyService.Success("Edit successfully!");
@@ -241,6 +291,7 @@ namespace TimpusProject.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatId", product.CatId);
+            ViewData["PublisherId"] = new SelectList(_context.Publishers, "PublisherId", "FullName", product.PublisherId);
             return View(product);
         }
 
@@ -260,6 +311,20 @@ namespace TimpusProject.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            var selected_authors = _context.AuthorProducts
+                .AsNoTracking()
+                .Where(author => author.ProductId == id)
+                .Include(author => author.Author)
+                .ToList();
+
+            var authors = _context.Authors
+                           .AsNoTracking()
+                           .ToList();
+
+            ViewData["SelectedAuthor"] = selected_authors;
+            ViewData["Authors"] = authors;
+            ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatName", product.CatId);
+            ViewData["PublisherId"] = new SelectList(_context.Publishers, "PublisherId", "FullName", product.PublisherId);
             return View(product);
         }
 
@@ -269,6 +334,16 @@ namespace TimpusProject.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Products.FindAsync(id);
+            var author_product = _context.AuthorProducts
+                .AsNoTracking()
+                .Where(author_product => author_product.ProductId == id)
+                .ToList();
+
+            foreach(var item in author_product)
+            {
+                _context.AuthorProducts.Remove(item);
+            }
+
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             _notifyService.Success("Delete successfully!");

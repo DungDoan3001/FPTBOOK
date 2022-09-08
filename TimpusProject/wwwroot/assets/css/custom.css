@@ -81,6 +81,7 @@ height: 210px;
 position: relative;
 color: #fff;
 margin: 0;
+font-size: 20px;
 }
 
 .container-product .card-product .contentBx .price, .container .card .contentBx {
