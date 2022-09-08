@@ -1,0 +1,116 @@
+﻿@model TimpusProject.Models.Author
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <h2 class="header-title">Delete @Model.AuthorName</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a href="javascript:void(0)" class="breadcrumb-item">Products Management</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="Categories" asp-action="Index">Authors</a>
+            <span class="breadcrumb-item active">Delete @Model.AuthorName</span>
+        </nav>
+    </div>
+</div>
+
+
+<a asp-action="index"><p class="h6 font-weight-light text-primary"><i class="anticon anticon-arrow-left"></i> Back to authors</p></a>
+
+<div class="alert alert-warning">
+    <div class="d-flex justify-content-start">
+        <span class="alert-icon m-r-20 font-size-30">
+            <i class="anticon anticon-exclamation-circle"></i>
+        </span>
+        <div>
+            <h5 class="alert-heading">Warning</h5>
+            <p>Do you want to delete @Model.AuthorName?</p>
+            <p>You can not make any changes after delete this author.</p>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-body">
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="AuthorName">Author name :</label>
+                    <input asp-for="AuthorName" class="form-control" placeholder="Author Name" readonly />
+                </div>
+               
+            </div>
+            <div class="form-group">
+                <textarea id="description" hidden>@Model.Biography</textarea>
+                <label for="inputAddress">Description :</label>
+                <div id="editor">
+                </div>
+            </div>
+        </form>
+        <div class="m-t-15" style="display: inline-flex">
+            <div class="m-l-0">
+                <button type="submit" class="btn btn-danger btn-tone" data-toggle="modal" data-target="#delete-category-model">
+                    <i class="anticon anticon-close-circle"></i>
+                    <span class="m-l-5">Delete?</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="delete-category-model">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-red" id="exampleModalLabel">LAST CHANCE &#10071;&#10071;&#10071;&#10071;</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <i class="anticon anticon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>
+                    Are you sure you want to <strong>Remove</strong> this author?<br />
+                    You can not make any changes after delete this author - all the products are going to be deleted.
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="AuthorId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            readOnly: true,
+        });
+
+        quill.root.innerHTML = jQuery('#description').val();
+
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+

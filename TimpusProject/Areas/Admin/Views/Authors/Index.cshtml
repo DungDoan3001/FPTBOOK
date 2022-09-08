@@ -1,0 +1,158 @@
+﻿@model IEnumerable<TimpusProject.Models.Author>
+
+@{
+    ViewData["Title"] = "Index Author";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <h2 class="header-title">Products</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Products Management</a>
+            <span class="breadcrumb-item active">Products</span>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <a asp-area="Admin" asp-action="Create" asp-controller="Authors">
+                    <button class="btn btn-primary btn-tone">
+                        <i class="anticon anticon-plus-circle m-r-5"></i>
+                        <span>Add Author</span>
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="data-table" class="table text-ceneter">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Author Name</th>
+                        <th>Biography</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        int tableIndex = 0;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                @{
+                                    tableIndex += 1;
+                                }
+                                <td>@tableIndex</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-fluid rounded" src="@item.Avatar" style="max-width: 60px" alt="@item.AuthorName">
+                                        <h6 class="m-b-0 m-l-10">@item.AuthorName</h6>
+                                    </div>
+                                </td>
+                                <td>@Html.Raw(item.Biography)</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.AuthorId">
+                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-primary btn-rounded" data-toggle="tooltip" data-placement="top" title="View details">
+                                            <i class="anticon anticon-eye"></i>
+                                        </div>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.AuthorId">
+                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-success btn-rounded" data-toggle="tooltip" data-placement="top" title="Edit">
+                                            <i class="anticon anticon-edit"></i>
+                                        </div>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.AuthorId">
+                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Delete">
+                                            <i class="anticon anticon-close-circle"></i>
+                                        </div>
+                                    </a>
+                                    </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    <script>
+        $('#data-table').DataTable();
+        $('.select2').select2();
+
+        $(document).ready(function() {
+            jQuery("#txtCatId").change(function() {
+                var catId = jQuery(this).children(":selected").attr("value");
+                var isActive = jQuery('#txtActive').children(":selected").attr("value");
+                isActive = parseFloat(isActive);
+                catId = parseFloat(catId);
+                $('#txtCatId option')
+                    .removeAttr('selected');
+                $("#txtCatId > [value=" + catId + "]").attr("selected", "true");
+
+                $.ajax({
+                    url: '/Admin/Products/Filtter',
+                    datatype: "json",
+                    type: "GET",
+                    data: {
+                        CatId: catId,
+                        Active: isActive
+                    },
+                    async: true,
+                    success: function(results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('error');
+                    }
+                });
+            });
+            jQuery("#txtActive").change(function() {
+                var isActive = jQuery(this).children(":selected").attr("value");
+                var catId = jQuery('#txtCatId').children(":selected").attr("value");
+                isActive = parseFloat(isActive);
+                catId = parseFloat(catId);
+                $('#txtActive option')
+                    .removeAttr('selected');
+                $("#txtActive > [value=" + isActive + "]").attr("selected", "true");
+
+                $.ajax({
+                    url: '/Admin/Products/Filtter',
+                    datatype: "json",
+                    type: "GET",
+                    data: {
+                        CatId: catId,
+                        Active: isActive
+                    },
+                    async: true,
+                    success: function(results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('error');
+                    }
+                });
+            });
+        });
+    </script>
+}

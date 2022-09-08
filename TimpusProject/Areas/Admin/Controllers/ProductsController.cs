@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,11 @@ namespace TimpusProject.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly TimpusDBContext _context;
-
-        public ProductsController(TimpusDBContext context)
+        public INotyfService _notifyService { get; }
+        public ProductsController(TimpusDBContext context, INotyfService notifyService)
         {
             _context = context;
+            _notifyService = notifyService;
         }
 
         // GET: Admin/Products
@@ -172,6 +174,7 @@ namespace TimpusProject.Areas.Admin.Controllers
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+                _notifyService.Success("Create successfully!");
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatId", product.CatId);
@@ -213,6 +216,7 @@ namespace TimpusProject.Areas.Admin.Controllers
                 {
                     _context.Update(product);
                     await _context.SaveChangesAsync();
+                    _notifyService.Success("Edit successfully!");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -258,6 +262,7 @@ namespace TimpusProject.Areas.Admin.Controllers
             var product = await _context.Products.FindAsync(id);
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
+            _notifyService.Success("Delete successfully!");
             return RedirectToAction(nameof(Index));
         }
 

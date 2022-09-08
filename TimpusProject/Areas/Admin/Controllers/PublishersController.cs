@@ -11,24 +11,24 @@ using TimpusProject.Models;
 namespace TimpusProject.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoriesController : Controller
+    public class PublishersController : Controller
     {
         private readonly TimpusDBContext _context;
         public INotyfService _notifyService { get; }
 
-        public CategoriesController(TimpusDBContext context, INotyfService notifyService)
+        public PublishersController(TimpusDBContext context, INotyfService notifyService)
         {
             _context = context;
             _notifyService = notifyService;
         }
 
-        // GET: Admin/Categories
+        // GET: Admin/Publishers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            return View(await _context.Publishers.ToListAsync());
         }
 
-        // GET: Admin/Categories/Details/5
+        // GET: Admin/Publishers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,40 +36,40 @@ namespace TimpusProject.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CatId == id);
-            if (category == null)
+            var publisher = await _context.Publishers
+                .FirstOrDefaultAsync(m => m.PublisherId == id);
+            if (publisher == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(publisher);
         }
 
-        // GET: Admin/Categories/Create
+        // GET: Admin/Publishers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Categories/Create
+        // POST: Admin/Publishers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CatId,CatName,Description,Ordering,Published")] Category category)
+        public async Task<IActionResult> Create([Bind("PublisherId,Avatar,FullName,Description")] Publisher publisher)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(publisher);
                 await _context.SaveChangesAsync();
                 _notifyService.Success("Create successfully!");
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(publisher);
         }
 
-        // GET: Admin/Categories/Edit/5
+        // GET: Admin/Publishers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,22 +77,22 @@ namespace TimpusProject.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var publisher = await _context.Publishers.FindAsync(id);
+            if (publisher == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(publisher);
         }
 
-        // POST: Admin/Categories/Edit/5
+        // POST: Admin/Publishers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CatId,CatName,Description,Ordering,Published")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("PublisherId,Avatar,FullName,Description")] Publisher publisher)
         {
-            if (id != category.CatId)
+            if (id != publisher.PublisherId)
             {
                 return NotFound();
             }
@@ -101,13 +101,13 @@ namespace TimpusProject.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(publisher);
                     await _context.SaveChangesAsync();
                     _notifyService.Success("Edit successfully!");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.CatId))
+                    if (!PublisherExists(publisher.PublisherId))
                     {
                         return NotFound();
                     }
@@ -118,10 +118,10 @@ namespace TimpusProject.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(publisher);
         }
 
-        // GET: Admin/Categories/Delete/5
+        // GET: Admin/Publishers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,31 +129,31 @@ namespace TimpusProject.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CatId == id);
-            if (category == null)
+            var publisher = await _context.Publishers
+                .FirstOrDefaultAsync(m => m.PublisherId == id);
+            if (publisher == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(publisher);
         }
 
-        // POST: Admin/Categories/Delete/5
+        // POST: Admin/Publishers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(category);
+            var publisher = await _context.Publishers.FindAsync(id);
+            _context.Publishers.Remove(publisher);
             await _context.SaveChangesAsync();
             _notifyService.Success("Delete successfully!");
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool PublisherExists(int id)
         {
-            return _context.Categories.Any(e => e.CatId == id);
+            return _context.Publishers.Any(e => e.PublisherId == id);
         }
     }
 }
