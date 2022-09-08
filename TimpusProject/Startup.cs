@@ -1,4 +1,5 @@
 using AspNetCoreHero.ToastNotification;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,9 +32,18 @@ namespace TimpusProject
             var stringConnectdb = Configuration.GetConnectionString("TimpusDB");
             services.AddDbContext<TimpusDBContext>(options => options.UseSqlServer(stringConnectdb));
             services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
-
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
+            services.AddSession();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+              .AddCookie(p =>
+              {
+                  //p.Cookie.Name = "UserLoginCookie";
+                  //p.ExpireTimeSpan = TimeSpan.FromDays(1);
+                  p.LoginPath = "/dang-nhap.html";
+                  //p.LogoutPath = "/dang-xuat/html";
+                  p.AccessDeniedPath = "/not-found.html";
+              });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +64,7 @@ namespace TimpusProject
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
