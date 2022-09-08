@@ -34,7 +34,8 @@ namespace TimpusProject.Areas.Admin.Controllers
                     .Where(product => product.CatId == CatId)
                     .Where(product => product.Active == true)
                     .Include(product => product.Cat)
-                    .OrderByDescending(product => product.ProductId)
+                    .OrderByDescending(product => product.HomeFlag)
+                    .ThenByDescending(product => product.BestSellers)
                     .ToList();
                 }
                 else
@@ -44,7 +45,8 @@ namespace TimpusProject.Areas.Admin.Controllers
                     .Where(product => product.CatId == CatId)
                     .Where(product => product.Active == false)
                     .Include(product => product.Cat)
-                    .OrderByDescending(product => product.ProductId)
+                    .OrderByDescending(product => product.HomeFlag)
+                    .ThenByDescending(product => product.BestSellers)
                     .ToList();
                 };
             }
@@ -56,7 +58,8 @@ namespace TimpusProject.Areas.Admin.Controllers
                     .AsNoTracking()
                     .Where(product => product.Active == true)
                     .Include(product => product.Cat)
-                    .OrderByDescending(product => product.ProductId)
+                    .OrderByDescending(product => product.HomeFlag)
+                    .ThenByDescending(product => product.BestSellers)
                     .ToList();
                 }
                 else
@@ -65,7 +68,8 @@ namespace TimpusProject.Areas.Admin.Controllers
                     .AsNoTracking()
                     .Where(product => product.Active == false)
                     .Include(product => product.Cat)
-                    .OrderByDescending(product => product.ProductId)
+                    .OrderByDescending(product => product.HomeFlag)
+                    .ThenByDescending(product => product.BestSellers)
                     .ToList();
                 }
             }
@@ -75,7 +79,8 @@ namespace TimpusProject.Areas.Admin.Controllers
                     .AsNoTracking()
                     .Where(product => product.CatId == CatId)
                     .Include(product => product.Cat)
-                    .OrderByDescending(product => product.ProductId)
+                    .OrderByDescending(product => product.HomeFlag)
+                    .ThenByDescending(product => product.BestSellers)
                     .ToList();
             }
             else
@@ -83,7 +88,8 @@ namespace TimpusProject.Areas.Admin.Controllers
                 lsProducts = _context.Products
                     .AsNoTracking()
                     .Include(product => product.Cat)
-                    .OrderByDescending(product => product.ProductId)
+                    .OrderByDescending(product => product.HomeFlag)
+                    .ThenByDescending(product => product.BestSellers)
                     .ToList();
             }
 
@@ -131,13 +137,20 @@ namespace TimpusProject.Areas.Admin.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Cat)
+                .Include(p => p.AuthorProducts)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
+            var authors = _context.AuthorProducts
+                .Include(p => p.Author)
+                .Where(p => p.ProductId == id)
+                .ToList();
+
             if (product == null)
             {
                 return NotFound();
             }
 
             ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatName", product.CatId);
+            ViewData["Author"] = authors;
             return View(product);
         }
 

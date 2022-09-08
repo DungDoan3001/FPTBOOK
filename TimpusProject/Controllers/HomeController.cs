@@ -47,11 +47,7 @@ namespace TimpusProject.Controllers
             ViewData["BestSellers"] = lsBestSellers;
             ViewData["Categories"] = lsCategories;
             return View();
-        }
 
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         public IActionResult About()
@@ -72,6 +68,36 @@ namespace TimpusProject.Controllers
             .ToList();
 
             ViewData["Categories"] = lsCategories;
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ValidateLogin()
+        {
+            var UsrOrEmail = HttpContext.Request.Form["EmailAndUsr"];
+            var Pwd = HttpContext.Request.Form["password"];
+
+            var customer = _context.Customers
+                .AsNoTracking()
+                .Where(customer => (customer.Email == UsrOrEmail && customer.Active == true && customer.Password == Pwd)
+                                || (customer.Username == UsrOrEmail && customer.Active == true && customer.Password == Pwd));
+                
+
+            if(customer != null)
+            {
+                Console.Write("Loged In");
+                return RedirectToAction("Index");
+            } else return RedirectToAction("Login");
+        }
+
+        public IActionResult Register()
+        {
             return View();
         }
 

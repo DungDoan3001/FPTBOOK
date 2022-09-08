@@ -9,6 +9,7 @@ namespace TimpusProject.Models
     {
         public Product()
         {
+            AuthorProducts = new HashSet<AuthorProduct>();
             OrderDetails = new HashSet<OrderDetail>();
         }
 
@@ -25,8 +26,12 @@ namespace TimpusProject.Models
         public bool? Active { get; set; }
         public int? UnitInStock { get; set; }
         public string SmallDescription { get; set; }
+        public string Isbn { get; set; }
+        public int? PublisherId { get; set; }
 
         public virtual Category Cat { get; set; }
+        public virtual Publisher Publisher { get; set; }
+        public virtual ICollection<AuthorProduct> AuthorProducts { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

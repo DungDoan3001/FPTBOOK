@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+
+    <link rel="stylesheet" href="~/assets/css/CustomLogin.css">
+
+    
+</head>
+<body>
+    <div class="login-box">
+        <div class="login-box-formbox">
+            <div class="login-box-signup">
+                Don't have an account? <a href="/Home/Register">Sign Up</a>
+            </div>
+            <div class="login-box-login">
+                <h1>Welcome to <br /> Timpus Web Store</h1>
+                <p>
+                    We sell eletric mobile devices
+                </p>
+                <form asp-action="ValidateLogin" method="post">
+                    <div>
+                        <label for="EmailAndUsr"> E-Mail or Username</label>
+                        <input type="text" name="EmailAndUsr" class="input-email" />
+                    </div>
+                    <div>
+                        <label for="password"> Password</label>
+                        <input type="password" name="password" class="input-password" />
+                    </div>
+                    <div>
+                        <input type="submit" value="Login to account" class="btn" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="login-box-quotebox">
+            <div class="quote-container">
+                <div class="quote">We sell <br /> eletric mobile devices</div>
+                <div class="quote-small">
+                    "Wanna enjoy the latest products from famous brand. Join us now for new updated product every day."
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

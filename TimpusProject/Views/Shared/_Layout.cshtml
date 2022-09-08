@@ -81,8 +81,17 @@
         </div>
     </nav>
     <!-- Close Header -->
-
     <!-- Search Modal -->
+ 
+
+
+
+
+
+
+
+
+
     <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="w-100 pt-1 mb-5 text-right">
@@ -128,7 +137,7 @@
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Products</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        @for(int i=0; i< ViewBag.Categories.Count; i++)
+                        @for (int i = 0; i < ViewBag.Categories.Count; i++)
                         {
                             <li><a class="text-decoration-none" href="#">@ViewBag.Categories[i].CatName</a></li>
                         }
@@ -152,7 +161,7 @@
                 <div class="row pt-2">
                     <div class="col-12">
                         <p class="text-left text-light">
-                            Copyright &copy; 
+                            Copyright &copy;
                             <script>
                                 document.write(new Date().getFullYear());
                             </script> Timpus.
@@ -164,7 +173,6 @@
 
     </footer>
     <!-- End Footer -->
-
     <!-- Start Script -->
     <script src="~/assets/js/jquery-1.11.0.min.js"></script>
     <script src="~/assets/js/jquery-migrate-1.2.1.min.js"></script>
@@ -172,7 +180,6 @@
     <script src="~/assets/js/templatemo.js"></script>
     <script src="~/assets/js/custom.js"></script>
     <!-- End Script -->
-
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
 </body>

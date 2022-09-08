@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using TimpusProject.Models;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using PagedList.Core;
+
 
 namespace TimpusProject.Controllers
 {
@@ -19,15 +21,38 @@ namespace TimpusProject.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int CatId = 0)
         {
+            var pageNumber = page;
+            var pageSize = 12;
+
             var lsCategories = _context.Categories
             .AsNoTracking()
             .ToList();
 
             ViewData["Categories"] = lsCategories;
 
-            return View();
+            List<Product> lsProducts = new List<Product>();
+
+            if(CatId != 0)
+            {
+                lsProducts = _context.Products
+                .AsNoTracking()
+                .Where(product => product.CatId == CatId)
+                .ToList();
+            } else
+            {
+                lsProducts = _context.Products
+                .AsNoTracking()
+                .ToList();
+            }
+
+            PagedList<Product> models = new PagedList<Product>(lsProducts.AsQueryable(), pageNumber, pageSize);
+            ViewBag.CurrentCatId = CatId;
+            ViewBag.CurrentPage = pageNumber;
+
+
+            return View(models);
         }
 
         public IActionResult Detail(int? id)

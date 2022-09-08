@@ -20,36 +20,40 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <div class="container">
-                    <div class="row p-5">
-                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                            <img class="img-fluid" src="@ViewBag.HomeFlag[0].Thumb" alt="">
-                        </div>
-                        <div class="col-lg-6 mb-0 d-flex align-items-center">
-                            <div class="text-align-left">
-                                <h1 class="h1">@ViewBag.HomeFlag[0].ProductName</h1>
-                                <h3 class="h3">Category: @ViewBag.HomeFlag[0].Cat.CatName</h3>
-                                @Html.Raw(ViewBag.HomeFlag[0].SmallDescription)
+                    <a class="text-decoration-none" style="color:inherit" asp-action="Detail" asp-controller="Products" asp-route-id="@ViewBag.HomeFlag[0].ProductId">
+                        <div class="row p-5">
+                            <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                                <img class="img-fluid" src="@ViewBag.HomeFlag[0].Thumb" alt="">
+                            </div>
+                            <div class="col-lg-6 mb-0 d-flex align-items-center">
+                                <div class="text-align-left">
+                                    <h1 class="h1">@ViewBag.HomeFlag[0].ProductName</h1>
+                                    <h3 class="h3">Category: @ViewBag.HomeFlag[0].Cat.CatName</h3>
+                                    @Html.Raw(ViewBag.HomeFlag[0].SmallDescription)
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
             @for (int i = 1; i < ViewBag.HomeFlag.Count; i++)
             {
                 <div class="carousel-item">
                     <div class="container">
-                        <div class="row p-5">
-                            <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                                <img class="img-fluid" src="@ViewBag.HomeFlag[i].Thumb" alt="">
-                            </div>
-                            <div class="col-lg-6 mb-0 d-flex align-items-center">
-                                <div class="text-align-left">
-                                    <h1 class="h1">@ViewBag.HomeFlag[i].ProductName</h1>
-                                    <h3 class="h3">Category: @ViewBag.HomeFlag[i].Cat.CatName</h3>
-                                    @Html.Raw(ViewBag.HomeFlag[i].SmallDescription)
+                        <a class="text-decoration-none" style="color:inherit" asp-action="Detail" asp-controller="Products" asp-route-id="@ViewBag.HomeFlag[i].ProductId">
+                            <div class="row p-5">
+                                <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                                    <img class="img-fluid" src="@ViewBag.HomeFlag[i].Thumb" alt="">
+                                </div>
+                                <div class="col-lg-6 mb-0 d-flex align-items-center">
+                                    <div class="text-align-left">
+                                        <h1 class="h1">@ViewBag.HomeFlag[i].ProductName</h1>
+                                        <h3 class="h3">Category: @ViewBag.HomeFlag[i].Cat.CatName</h3>
+                                        @Html.Raw(ViewBag.HomeFlag[i].SmallDescription)
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             }

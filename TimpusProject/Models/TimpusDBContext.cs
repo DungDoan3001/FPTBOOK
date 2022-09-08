@@ -18,11 +18,14 @@ namespace TimpusProject.Models
         }
 
         public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Author> Authors { get; set; }
+        public virtual DbSet<AuthorProduct> AuthorProducts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Publisher> Publishers { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<TransacStatus> TransacStatuses { get; set; }
 
@@ -65,6 +68,40 @@ namespace TimpusProject.Models
                     .WithMany(p => p.Accounts)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK_Accounts_Roles");
+            });
+
+            modelBuilder.Entity<Author>(entity =>
+            {
+                entity.ToTable("Author");
+
+                entity.Property(e => e.AuthorId).HasColumnName("AuthorID");
+
+                entity.Property(e => e.Biography)
+                    .HasMaxLength(10)
+                    .IsFixedLength(true);
+            });
+
+            modelBuilder.Entity<AuthorProduct>(entity =>
+            {
+                entity.HasKey(e => new { e.AuthorId, e.ProductId });
+
+                entity.ToTable("Author_Product");
+
+                entity.Property(e => e.AuthorId).HasColumnName("AuthorID");
+
+                entity.Property(e => e.ProductId).HasColumnName("ProductID");
+
+                entity.HasOne(d => d.Author)
+                    .WithMany(p => p.AuthorProducts)
+                    .HasForeignKey(d => d.AuthorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Author_Product_Author");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.AuthorProducts)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Author_Product_Products");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -151,14 +188,36 @@ namespace TimpusProject.Models
 
                 entity.Property(e => e.DateModified).HasColumnType("datetime");
 
+                entity.Property(e => e.Isbn)
+                    .HasMaxLength(50)
+                    .HasColumnName("ISBN");
+
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
 
                 entity.Property(e => e.ProductName).HasMaxLength(255);
+
+                entity.Property(e => e.PublisherId).HasColumnName("PublisherID");
 
                 entity.HasOne(d => d.Cat)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CatId)
                     .HasConstraintName("FK_Products_Categories");
+
+                entity.HasOne(d => d.Publisher)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.PublisherId)
+                    .HasConstraintName("FK_Products_Publisher");
+            });
+
+            modelBuilder.Entity<Publisher>(entity =>
+            {
+                entity.ToTable("Publisher");
+
+                entity.Property(e => e.PublisherId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("PublisherID");
+
+                entity.Property(e => e.FullName).HasMaxLength(250);
             });
 
             modelBuilder.Entity<Role>(entity =>
