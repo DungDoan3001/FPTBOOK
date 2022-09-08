@@ -6,13 +6,13 @@
 }
 
 <div class="page-header">
-    <h2 class="header-title">Delete @Model.AuthorName</h2>
+    <h2 class="header-title">Delete @Model.FullName</h2>
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
             <a href="javascript:void(0)" class="breadcrumb-item">Products Management</a>
             <a class="breadcrumb-item" asp-area="Admin" asp-controller="Categories" asp-action="Index">Authors</a>
-            <span class="breadcrumb-item active">Delete @Model.AuthorName</span>
+            <span class="breadcrumb-item active">Delete @Model.FullName</span>
         </nav>
     </div>
 </div>
@@ -27,7 +27,7 @@
         </span>
         <div>
             <h5 class="alert-heading">Warning</h5>
-            <p>Do you want to delete @Model.AuthorName?</p>
+            <p>Do you want to delete @Model.FullName?</p>
             <p>You can not make any changes after delete this author.</p>
         </div>
     </div>
@@ -40,8 +40,8 @@
         <form>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label asp-for="AuthorName">Author name :</label>
-                    <input asp-for="AuthorName" class="form-control" placeholder="Author Name" readonly />
+                    <label asp-for="FullName">Author name :</label>
+                    <input asp-for="FullName" class="form-control" placeholder="Author Name" readonly />
                 </div>
                
             </div>

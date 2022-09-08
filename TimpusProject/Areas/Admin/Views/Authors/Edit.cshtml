@@ -6,13 +6,13 @@
 }
 
 <div class="page-header">
-	<h2 class="header-title">Edit @Model.AuthorName's author</h2>
+	<h2 class="header-title">Edit @Model.FullName's author</h2>
 	<div class="header-sub-title">
 		<nav class="breadcrumb breadcrumb-dash">
 			<a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
 			<a href="javascript:void(0)" class="breadcrumb-item">Products Management</a>
 			<a class="breadcrumb-item" asp-area="Admin" asp-controller="Authors" asp-action="Index">Author</a>
-			<span class="breadcrumb-item active">Edit @Model.AuthorName's author</span>
+			<span class="breadcrumb-item active">Edit @Model.FullName's author</span>
 		</nav>
 	</div>
 </div>
@@ -30,7 +30,7 @@
 				<div class="card-body">
 					<div class="media align-items-center">
 						<div class="avatar avatar-image  m-h-10 m-r-15" style="height: 80px; width: 80px">
-							<img src="@Model.Avatar" id="ImgPreview" alt="@Model.AuthorName">
+							<img src="@Model.Avatar" id="ImgPreview" alt="@Model.FullName">
 						</div>
 						<div class="m-l-20 m-r-20">
 							<h5 class="m-b-5 font-size-18">Change Avatar</h5>
@@ -59,9 +59,9 @@
 							<span asp-validation-for="Avatar" class="text-danger"></span>
 						</div>
 						<div class="form-group col-md-5">
-                                <label asp-for="AuthorName" class="font-weight-semibold">Author name:</label>
-                                <input class="form-control" asp-for="AuthorName">
-                                <span asp-validation-for="AuthorName" class="text-danger"></span>
+                                <label asp-for="FullName" class="font-weight-semibold">Author name:</label>
+                                <input class="form-control" asp-for="FullName">
+                                <span asp-validation-for="FullName" class="text-danger"></span>
                             </div>
 						<div class="form-group row" hidden>
 							<label asp-for="Biography" class="col-sm-2 col-form-label">Biography</label>
