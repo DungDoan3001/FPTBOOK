@@ -20,7 +20,7 @@
 
 <a asp-action="index"><p class="h6 font-weight-light text-primary"><i class="anticon anticon-arrow-left"></i> Back to products</p></a>
 
-<form asp-action="Create" id="productEdit">
+<form asp-action="Create" method="post" id="productEdit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="page-header no-gutters has-tab">
         <div class="d-md-flex m-b-15 align-items-center justify-content-between">
@@ -99,6 +99,20 @@
                         <span asp-validation-for="CatId" class="text-danger"></span>
                     </div>
                     <!-- EOF Category -->
+                    <!-- Multiple select boxes -->
+                    <div class="form-group">
+                        <label class="font-weight-semibold control-label">Authors</label>
+                        <select class="authors" name="authors[]" multiple="multiple">
+                            @if (ViewBag.Authors.Count != 0)
+                            {
+                                @for (int i = 0; i < ViewBag.Authors.Count; i++)
+                                {
+                                    <option value="@ViewBag.Authors[i].AuthorId">@ViewBag.Authors[i].AuthorName</option>
+                                }
+                            }
+                            }
+                        </select>
+                    </div>
                     <div class="form-row">
                         <div class="col-6">
                             <!-- DateCreated -->
@@ -171,18 +185,18 @@
         <div class="tab-pane fade" id="product-edit-description">
             <div class="card">
                 <div class="card-body">
-                    <div class="form-group" >
+                    <div class="form-group">
                         <label asp-for="Description" class="font-weight-semibold m-b-0 control-label">Description</label>
-                        <input asp-for="Description" id="description" class="form-control" hidden/>
+                        <input asp-for="Description" id="description" class="form-control" hidden />
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div id="editor">
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="form-group" >
+                    <div class="form-group">
                         <label asp-for="SmallDescription" class="font-weight-semibold m-t-20 m-b-0 control-label">Small Description</label>
-                        <input asp-for="SmallDescription" id="smdescription" class="form-control" hidden/>
+                        <input asp-for="SmallDescription" id="smdescription" class="form-control" hidden />
                         <span asp-validation-for="SmallDescription" class="text-danger"></span>
                     </div>
                     <div id="smDes">
@@ -222,7 +236,7 @@
             placeholder: 'Enter the product small description',
         });
         $('.select2').select2();
-
+        $('.authors').select2();
 
         quill.root.innerHTML = jQuery('#description').val();
         quillSMDes.root.innerHTML = jQuery('#smdescription').val();
