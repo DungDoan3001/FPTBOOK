@@ -1,0 +1,131 @@
+﻿@model TimpusProject.Models.Publisher
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+	<h2 class="header-title">Create new customer account</h2>
+	<div class="header-sub-title">
+		<nav class="breadcrumb breadcrumb-dash">
+			<a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+			<a href="javascript:void(0)" class="breadcrumb-item">Products Management</a>
+			<a class="breadcrumb-item" asp-area="Admin" asp-controller="Publishers" asp-action="Index">Publishers</a>
+			<span class="breadcrumb-item active">Create new publisher</span>
+		</nav>
+	</div>
+</div>
+
+<a asp-action="index"><p class="h6 font-weight-light text-primary"><i class="anticon anticon-arrow-left"></i> Back to publishers</p></a>
+
+
+<div class="container">
+	<div class="tab-content m-t-15">
+		<div class="tab-pane fade show active" id="tab-account">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Basic User's Information</h4>
+				</div>
+				<div class="card-body">
+					<div class="media align-items-center">
+						<div class="avatar avatar-image  m-h-10 m-r-15" style="height: 80px; width: 80px">
+							<img src="~/admin_assets/images/avatars/thumb-1.jpg" id="ImgPreview" alt="">
+						</div>
+						<div class="m-l-20 m-r-20">
+							<h5 class="m-b-5 font-size-18">Change Avatar</h5>
+							<p class="opacity-07 font-size-13 m-b-0">
+								Recommended Dimensions: <br>
+								120x120 Max fil size: 5MB
+							</p>
+						</div>
+						<div>
+							<label class="btn btn-tone btn-primary">
+								<input type="file" id="UploadImg" name="myImage" accept="image/png, image/gif, image/jpeg" style="display:none" />
+								Upload
+							</label>
+						</div>
+					</div>
+
+					<hr class="m-v-25">
+
+					<form asp-action="Create" id="form-validation">
+						<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+						<div class="form-group">
+							<label asp-for="Avatar" class="control-label"></label>
+							<input asp-for="Avatar" value="~/admin_assets/images/avatars/thumb-1.jpg" id="b64Img" class="form-control" readonly />
+							<span asp-validation-for="Avatar" class="text-danger"></span>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-12">
+								<label asp-for="FullName" class="font-weight-semibold control-label">Author name:</label>
+								<input asp-for="FullName" class="form-control" placeholder="Ex: John Doe" required />
+								<span asp-validation-for="FullName" class="text-danger"></span>
+							</div>
+
+							<div class="form-group row" hidden >
+								<label asp-for="Description" class="col-sm-2 col-form-label">Biography</label>
+								<div class="col-sm-10">
+									<textarea asp-for="Description" id="biography" class="form-control" placeholder="Biography"></textarea>
+								</div>
+								<span asp-validation-for="Description" class="text-danger"></span>
+							</div>
+
+							<div class="form-group row">
+								<label asp-for="Description" class="col-sm-12 row-form-label m-b-10 m-l-5">Biography:</label>
+							</div>
+							<div class="col-12 m-b-40">
+									<div id="editor">
+									</div>
+								</div>
+							<div class="form-group col-12">
+								<input type="submit" value="Create" class="btn btn-primary" />
+								<input type="reset" value="Reset" class="btn btn-warning m-l-30 " />
+							</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+@section Scripts{
+    <script>
+        $("#form-validation").validate({
+            ignore: ':hidden:not(:checkbox)',
+            errorElement: 'label',
+            errorClass: 'is-invalid',
+            validClass: 'is-valid',
+            rules: {
+                inputPassword: {
+                    required: true
+                },
+                inputPasswordConfirm: {
+                    required: true,
+                    equalTo: '#newPassword'
+                }
+            }
+        });
+
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: 'Enter the category description',
+        });
+
+        quill.root.innerHTML = jQuery('#biography').val();
+
+        jQuery(document).ready(function() {
+            jQuery('#editor').keyup(function() {
+                var myhtml = quill.root.innerHTML;
+                console.log(myhtml);
+                jQuery('#biography').val(myhtml);
+            });
+
+        });
+    </script>
+}
+

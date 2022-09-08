@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,11 @@ namespace TimpusProject.Areas.Admin.Controllers
     public class CustomersController : Controller
     {
         private readonly TimpusDBContext _context;
-
-        public CustomersController(TimpusDBContext context)
+        public INotyfService _notifyService { get; }
+        public CustomersController(TimpusDBContext context, INotyfService notifyService)
         {
             _context = context;
+            _notifyService = notifyService;
         }
 
         // GET: Admin/Customers
@@ -60,6 +62,7 @@ namespace TimpusProject.Areas.Admin.Controllers
             {
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
+                _notifyService.Success("Create successfully!");
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
@@ -99,6 +102,7 @@ namespace TimpusProject.Areas.Admin.Controllers
                 {
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
+                    _notifyService.Success("Edit successfully!");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -142,6 +146,7 @@ namespace TimpusProject.Areas.Admin.Controllers
             var customer = await _context.Customers.FindAsync(id);
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
+            _notifyService.Success("Delete successfully!");
             return RedirectToAction(nameof(Index));
         }
 

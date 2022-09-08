@@ -17,9 +17,10 @@ namespace TimpusProject.Areas.Admin.Controllers
         private readonly TimpusDBContext _context;
         public INotyfService _notifyService { get; }
 
-        public AccountsController(TimpusDBContext context, INotyfService _notifyService)
+        public AccountsController(TimpusDBContext context, INotyfService notifyService)
         {
             _context = context;
+            _notifyService = notifyService;
         }
 
         //// GET: Admin/Accounts
@@ -116,6 +117,7 @@ namespace TimpusProject.Areas.Admin.Controllers
             {
                 _context.Add(account);
                 await _context.SaveChangesAsync();
+                _notifyService.Success("Create successfully!");
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId", account.RoleId);
@@ -157,6 +159,7 @@ namespace TimpusProject.Areas.Admin.Controllers
                 {
                     _context.Update(account);
                     await _context.SaveChangesAsync();
+                    _notifyService.Success("Edit successfully!");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -202,7 +205,7 @@ namespace TimpusProject.Areas.Admin.Controllers
             var account = await _context.Accounts.FindAsync(id);
             _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
-            //_notifyService.Success("Delete Successfully!");
+            _notifyService.Success("Delete successfully!");
             return RedirectToAction(nameof(Index));
         }
 
