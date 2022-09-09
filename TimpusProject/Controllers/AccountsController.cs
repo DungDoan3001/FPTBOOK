@@ -16,6 +16,7 @@ using TimpusProject.ModelView;
 
 namespace TimpusProject.Controllers
 {
+    [Authorize]
     public class AccountsController : Controller
     {
         private readonly TimpusDBContext _context;
@@ -219,6 +220,15 @@ namespace TimpusProject.Controllers
                 return RedirectToAction("DangkyTaiKhoan", "Accounts");
             }
             return View(customer);
+        }
+
+        [HttpGet]
+        [Route("Log-out.html", Name = "Logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync();
+            HttpContext.Session.Remove("CustomerId");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

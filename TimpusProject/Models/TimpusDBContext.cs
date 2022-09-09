@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using TimpusProject.ModelView;
 
 #nullable disable
 
@@ -240,5 +241,9 @@ namespace TimpusProject.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<TimpusProject.ModelView.RegisterViewModel> RegisterViewModel { get; set; }
+
+        public DbSet<TimpusProject.ModelView.LoginViewModel> LoginViewModel { get; set; }
     }
 }
