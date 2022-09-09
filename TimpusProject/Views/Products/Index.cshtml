@@ -1,7 +1,4 @@
-﻿@*@using PagedList.Core.Mvc
-@model PagedList.Core.IPagedList<TimpusProject.Models.Product>*@
-
-@model IEnumerable<TimpusProject.Models.Product>
+﻿@model IEnumerable<TimpusProject.Models.Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -20,7 +17,7 @@
                     {
                         <a class="text-decoration-none" asp-action="Index" asp-controller="Products" asp-route-CatId="0">
                         <li class="pb-3" style="font-size:15px !important">
-                                All
+                            All
                         </li>
                         </a>
                         @for (int i = 0; i < ViewBag.Categories.Count; i++)
@@ -50,7 +47,12 @@
                     </button>
                 </div>
                 <div class="col-lg-4">
-                    <input class="search" placeholder="Search" style="width:100%" />
+                    <div class="input-group rounded">
+                        <span class="input-group-text border-0" id="search-addon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input class="search form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />                        
+                    </div>
                 </div>
             </div>
 
