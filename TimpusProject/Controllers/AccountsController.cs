@@ -223,7 +223,13 @@ namespace TimpusProject.Controllers
                         _notyfService.Warning("Login information is incorrect");
                         return RedirectToAction("Login");
                     }
-                    
+
+                    if(customers.Active == false)
+                    {
+                        _notyfService.Warning("This account is disabled");
+                        return RedirectToAction("Login");
+                    }
+
                     string pass = (customer.Password + customers.Salt.Trim()).ToMD5();
                     if (customers.Password != pass)
                     {

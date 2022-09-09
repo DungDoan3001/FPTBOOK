@@ -52,7 +52,7 @@
                     <form asp-action="Edit">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="CustomerId" />
-
+                        <input asp-for="Salt" />
                         <div class="form-group">
                             <label asp-for="Avatar" class="control-label"></label>
                             <input asp-for="Avatar" id="b64Img" class="form-control" readonly/>
