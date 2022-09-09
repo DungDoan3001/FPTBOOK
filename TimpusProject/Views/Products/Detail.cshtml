@@ -49,8 +49,6 @@
                             }
                         </ul>
 
-                        
-
                         <form action="" method="GET">
                             <input type="hidden" name="product-title" value="Activewear">
                             <div class="row">
@@ -66,9 +64,10 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="row pb-3">
+                            <div class="row pb-3 add-to-cart">
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add To Cart</button>
+                                    <a type="submit" class="btn btn-success btn-lg" href="javascript:void(0)" name="submit" value="addtocard">Add To Cart</a>
+                                    <input hidden asp-for="ProductId" />
                                 </div>
                             </div>
                         </form>
@@ -90,3 +89,60 @@
     </div>
 </section>
 <!-- Close Content -->
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $(".add-to-cart").click(function () {
+                var productid = $('#ProductId').val();
+                var soLuong = $('#txtsoLuong').val();
+                $.ajax({
+                    url: '/api/cart/add',
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        productID: productid,
+                        amount: soLuong
+                    },
+                    success: function (response) {
+                        if (response.result == 'Redirect') {
+                            window.location = response.url;
+                        }
+                        else {
+                            loadHeaderCart(); //Add Product success
+                            location.reload();
+                        }
+                        console.log(response); // log to the console to see whether it worked
+                    },
+                    error: function (error) {
+                        alert("There was an error posting the data to the server: " + error.responseText);
+                    }
+                });
+            });
+
+            @*$(".removecart").click(function () {
+                var productid = $(this).attr("data-productid");
+                $.ajax({
+                    url: "api/cart/remove",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: { productID: productid },
+                    success: function (result) {
+                        if (result.success) {
+                            loadHeaderCart();//Reload lai gio hang
+                            location.reload();
+                        }
+                    },
+                    error: function (rs) {
+                        alert("Remove Cart Error !")
+                    }
+                });
+            });*@
+        });
+        function loadHeaderCart() {
+            $('#numberCart').load("/AjaxContent/NumberCart");
+        }
+    });
+</script>
+
+}
