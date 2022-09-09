@@ -33,17 +33,16 @@
                               <div class="d-flex flex-row align-items-center">
                                 <div>
                                   <img
-                                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
+                                    src="@item.product.Thumb"
                                     class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
                                 </div>
                                 <div class="ms-3">
                                   <h5>@item.product.ProductName</h5>
-                                  <p class="small mb-0">@*@item.product.Cat.CatName*@ category</p>
                                 </div>
                               </div>
                               <div class="d-flex flex-row align-items-center">
-                                <div style="width: 50px;">
-                                  <h5 class="fw-normal mb-0">@item.amount</h5>
+                                <div style="width: 8rem;">
+                                  <h5 class="fw-normal mb-0">Quantity: @item.amount</h5>
                                 </div>
                                 <div style="width: 80px;">
                                   <h5 class="mb-0">@item.product.Price.Value.ToString("#,###") $</h5>
@@ -55,10 +54,6 @@
                         </div>               
                     }
                 }
-
-                
-
-                
 
               </div>
               <div class="col-lg-5">
@@ -115,23 +110,13 @@
                     <hr class="my-4">
 
                     <div class="d-flex justify-content-between">
-                      <p class="mb-2">Subtotal</p>
-                      <p class="mb-2">$4798.00</p>
-                    </div>
-
-                    <div class="d-flex justify-content-between">
-                      <p class="mb-2">Shipping</p>
-                      <p class="mb-2">$20.00</p>
-                    </div>
-
-                    <div class="d-flex justify-content-between mb-4">
-                      <p class="mb-2">Total(Incl. taxes)</p>
-                      <p class="mb-2">$4818.00</p>
+                      <p class="mb-2">Total value:</p>
+                      <p class="mb-2">@Model.Sum(x => x.TotalMoney).ToString("#,###") $</p>
                     </div>
 
                     <button type="button" class="btn btn-info btn-block btn-lg">
                       <div class="d-flex justify-content-between">
-                        <span>$4818.00</span>
+
                         <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
                       </div>
                     </button>

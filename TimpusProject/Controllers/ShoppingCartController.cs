@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TimpusProject.Extension;
 using TimpusProject.Models;
 using TimpusProject.ModelView;
@@ -38,7 +39,6 @@ namespace TimpusProject.Controllers
         public IActionResult AddToCart(int productID, int? amount)
         {
             List<CartItem> cart = Cart;
-
             try
             {
                 //Them san pham vao gio hang
@@ -59,7 +59,6 @@ namespace TimpusProject.Controllers
                     };
                     cart.Add(item);//Them vao gio
                 }
-
                 //Luu lai Session
                 HttpContext.Session.Set<List<CartItem>>("Cart", cart);
                 _notyfService.Success("Add product successful!");
@@ -120,6 +119,10 @@ namespace TimpusProject.Controllers
         [Route("cart.html", Name = "Cart")]
         public IActionResult Index()
         {
+            var lsCategories = _context.Categories
+            .AsNoTracking()
+            .ToList();
+            ViewData["Categories"] = lsCategories;
             return View(Cart);
         }
     }
