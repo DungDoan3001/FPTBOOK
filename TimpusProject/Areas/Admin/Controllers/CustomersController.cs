@@ -56,7 +56,7 @@ namespace TimpusProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FullName,Avatar,Address,Email,Phone,CreateDate,Username,Password,LastLogin,Active")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CustomerId,FullName,Avatar,Address,Email,Phone,CreateDate,Username,Password,LastLogin,Salt,Active")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace TimpusProject.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FullName,Avatar,Address,Email,Phone,CreateDate,Username,Password,LastLogin,Active")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FullName,Avatar,Address,Email,Phone,CreateDate,Username,Password,LastLogin,Salt,Active")] Customer customer)
         {
             if (id != customer.CustomerId)
             {

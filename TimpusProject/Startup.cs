@@ -29,6 +29,7 @@ namespace TimpusProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
             var stringConnectdb = Configuration.GetConnectionString("TimpusDB");
             services.AddDbContext<TimpusDBContext>(options => options.UseSqlServer(stringConnectdb));
             services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
@@ -40,7 +41,7 @@ namespace TimpusProject
               {
                   //p.Cookie.Name = "UserLoginCookie";
                   //p.ExpireTimeSpan = TimeSpan.FromDays(1);
-                  p.LoginPath = "/dang-nhap.html";
+                  p.LoginPath = "/login.html";
                   //p.LogoutPath = "/dang-xuat/html";
                   p.AccessDeniedPath = "/not-found.html";
               });
@@ -61,9 +62,8 @@ namespace TimpusProject
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
