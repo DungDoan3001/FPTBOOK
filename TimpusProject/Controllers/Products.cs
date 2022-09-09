@@ -67,6 +67,7 @@ namespace TimpusProject.Controllers
             .FirstOrDefault(product => product.ProductId == id);
 
             var authors = _context.AuthorProducts
+                .Where(authors => authors.ProductId == id)
                 .Include(authors => authors.Author)
                 .ToList();
 
