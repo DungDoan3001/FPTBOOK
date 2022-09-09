@@ -88,7 +88,7 @@ namespace TimpusProject.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("RegisterAccount.html", Name = "DangKy")]
+        [Route("RegisterAccount.html", Name = "Register account")]
         public IActionResult RegisterAccount()
         {
             return View();
@@ -96,13 +96,26 @@ namespace TimpusProject.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("RegisterAccount.html", Name = "DangKy")]
+        [Route("RegisterAccount.html", Name = "Register account")]
         public async Task<IActionResult> RegisterAccount(RegisterViewModel account)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    var checkMail = _context.Customers.AsNoTracking().SingleOrDefault(x => x.Email.Trim().ToLower() == account.Email.Trim().ToLower());
+                    var checkUsername = _context.Customers.AsNoTracking().SingleOrDefault(x => x.Username.Trim().ToLower() == account.Username.Trim().ToLower());
+                    if (checkMail != null)
+                    {
+                        _notyfService.Warning("Email already used");
+                        return RedirectToAction("RegisterAccount", "Accounts");
+                    }
+                    if (checkUsername != null)
+                    {
+                        _notyfService.Warning("Username already used");
+                        return RedirectToAction("RegisterAccount", "Accounts");
+                    }
+
                     string salt = Utilities.GetRandomKey();
                     Customer customers = new Customer
                     {
@@ -121,7 +134,7 @@ namespace TimpusProject.Controllers
                         await _context.SaveChangesAsync();
                         //Lưu Session MaKh
                         HttpContext.Session.SetString("CustomerId", customers.CustomerId.ToString());
-                        var taikhoanID = HttpContext.Session.GetString("CustomerId");
+                        var accountID = HttpContext.Session.GetString("CustomerId");
 
                         //Identity
                         var claims = new List<Claim>
@@ -137,6 +150,7 @@ namespace TimpusProject.Controllers
                     }
                     catch
                     {
+                        _notyfService.Warning("Email already used");
                         return RedirectToAction("RegisterAccount", "Accounts");
                     }
                 }
@@ -147,6 +161,7 @@ namespace TimpusProject.Controllers
             }
             catch
             {
+                _notyfService.Error("Error Found!");
                 return View(account);
             }
         }
@@ -158,42 +173,48 @@ namespace TimpusProject.Controllers
             var accountID = HttpContext.Session.GetString("CustomerId");
             if (accountID != null)
             {
-                return RedirectToAction("Dashboard", "Accounts");
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("Login.html", Name = "DangNhap")]
+        [Route("Login.html", Name = "Login")]
         public async Task<IActionResult> Login(LoginViewModel customer, string returnUrl)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool isEmail = Utilities.IsValidEmail(customer.UserName);
+                    bool isEmail = Utilities.IsValidEmail(customer.Email);
                     if (!isEmail) return View(customer);
 
-                    var customers = _context.Customers.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == customer.UserName);
+                    var customers = _context.Customers.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == customer.Email);
 
-                    if (customers == null) return RedirectToAction("DangkyTaiKhoan");
+                    if (customers == null)
+                    {
+                        _notyfService.Warning("Login information is incorrect");
+                        return RedirectToAction("Login");
+                    }
+                    
                     string pass = (customer.Password + customers.Salt.Trim()).ToMD5();
                     if (customers.Password != pass)
                     {
-                        _notyfService.Success("Login information is incorrect");
+                        _notyfService.Warning("Login information is incorrect");
                         return View(customer);
                     }
                     //kiem tra xem account co bi disable hay khong
 
                     if (customers.Active == false)
                     {
-                        return RedirectToAction("ThongBao", "Accounts");
+                        _notyfService.Warning("This account has been disabled!");
+                        return RedirectToAction("Login", "Accounts");
                     }
 
                     //Luu Session MaKh
                     HttpContext.Session.SetString("CustomerId", customers.CustomerId.ToString());
-                    var taikhoanID = HttpContext.Session.GetString("CustomerId");
+                    var accountID = HttpContext.Session.GetString("CustomerId");
 
                     //Identity
                     var claims = new List<Claim>
@@ -204,7 +225,7 @@ namespace TimpusProject.Controllers
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                     await HttpContext.SignInAsync(claimsPrincipal);
-                    _notyfService.Success("Đăng nhập thành công");
+                    _notyfService.Success("Login successful!");
                     if (string.IsNullOrEmpty(returnUrl))
                     {
                         return RedirectToAction("Dashboard", "Accounts");
@@ -217,7 +238,8 @@ namespace TimpusProject.Controllers
             }
             catch
             {
-                return RedirectToAction("DangkyTaiKhoan", "Accounts");
+                _notyfService.Error("Error found!");
+                return RedirectToAction("Login", "Accounts");
             }
             return View(customer);
         }
@@ -228,6 +250,7 @@ namespace TimpusProject.Controllers
         {
             HttpContext.SignOutAsync();
             HttpContext.Session.Remove("CustomerId");
+            _notyfService.Success("Logout successful!");
             return RedirectToAction("Index", "Home");
         }
     }

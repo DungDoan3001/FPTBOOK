@@ -10,7 +10,7 @@ namespace TimpusProject.ModelView
         [Required(ErrorMessage = ("Please input Email"))]
         [Display(Name = "Email")]
         [EmailAddress(ErrorMessage = "Wrong Validation Email!")]
-        public string UserName { get; set; }
+        public string Email { get; set; }
 
         [Display(Name = "Password")]
         [Required(ErrorMessage = "Please input Password")]
