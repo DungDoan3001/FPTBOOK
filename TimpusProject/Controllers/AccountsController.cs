@@ -19,6 +19,8 @@ namespace TimpusProject.Controllers
     [Authorize]
     public class AccountsController : Controller
     {
+
+
         private readonly TimpusDBContext _context;
         public INotyfService _notyfService { get; }
         public AccountsController(TimpusDBContext context, INotyfService notyfService)
@@ -30,6 +32,11 @@ namespace TimpusProject.Controllers
         [Route("my-profile.html", Name = "Dashboard")]
         public IActionResult Dashboard()
         {
+            var lsCategories = _context.Categories
+            .AsNoTracking()
+            .ToList();
+            ViewData["Categories"] = lsCategories;
+
             var accountID = HttpContext.Session.GetString("CustomerId");
             if (accountID != null)
             {
@@ -91,6 +98,11 @@ namespace TimpusProject.Controllers
         [Route("RegisterAccount.html", Name = "Register account")]
         public IActionResult RegisterAccount()
         {
+            var lsCategories = _context.Categories
+            .AsNoTracking()
+            .ToList();
+            ViewData["Categories"] = lsCategories;
+
             return View();
         }
 
@@ -99,6 +111,11 @@ namespace TimpusProject.Controllers
         [Route("RegisterAccount.html", Name = "Register account")]
         public async Task<IActionResult> RegisterAccount(RegisterViewModel account)
         {
+            var lsCategories = _context.Categories
+            .AsNoTracking()
+            .ToList();
+            ViewData["Categories"] = lsCategories;
+
             try
             {
                 if (ModelState.IsValid)
@@ -150,7 +167,6 @@ namespace TimpusProject.Controllers
                     }
                     catch
                     {
-                        _notyfService.Warning("Email already used");
                         return RedirectToAction("RegisterAccount", "Accounts");
                     }
                 }
@@ -170,6 +186,11 @@ namespace TimpusProject.Controllers
         [Route("Login.html", Name = "Login")]
         public IActionResult Login(string returnUrl = null)
         {
+            var lsCategories = _context.Categories
+            .AsNoTracking()
+            .ToList();
+            ViewData["Categories"] = lsCategories;
+
             var accountID = HttpContext.Session.GetString("CustomerId");
             if (accountID != null)
             {
@@ -183,6 +204,11 @@ namespace TimpusProject.Controllers
         [Route("Login.html", Name = "Login")]
         public async Task<IActionResult> Login(LoginViewModel customer, string returnUrl)
         {
+            var lsCategories = _context.Categories
+            .AsNoTracking()
+            .ToList();
+            ViewData["Categories"] = lsCategories;
+
             try
             {
                 if (ModelState.IsValid)

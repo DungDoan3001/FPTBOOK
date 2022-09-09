@@ -79,12 +79,38 @@
                     </div>
                 </div>
                 <!-- EOF Price -->
+                <!-- ISBN -->
+                <div class="form-group">
+                    <label asp-for="Isbn" class="font-weight-semibold control-label">ISBN</label>
+                    <input asp-for="Isbn" type="text" placeholder="Product Name" class="form-control" readonly/>
+                </div>
+                <!-- EOF ISBN -->
+                <!-- Publisher -->
+                <div class="form-group">
+                    <label asp-for="PublisherId" class="font-weight-semibold control-label">Publisher</label>
+                    <select asp-for="PublisherId" class="publisher" asp-items="ViewBag.PublisherId" disabled></select>
+                </div>
+                <!-- EOF Publisher -->
                 <!-- Category -->
                 <div class="form-group">
                     <label asp-for="CatId" class="font-weight-semibold control-label">Category</label>
                     <select asp-for="CatId" class="select2" asp-items="ViewBag.CatId" disabled></select>
                 </div>
                 <!-- EOF Category -->
+                <!-- Multiple select boxes -->
+                <div class="form-group">
+                    <label class="font-weight-semibold control-label">Authors</label>
+                    <select class="authors" name="authors[]" multiple="multiple" disabled>
+                        @if (ViewBag.Authors.Count != 0)
+                        {
+                            @for (int i = 0; i < ViewBag.Authors.Count; i++)
+                            {
+                                <option value="@ViewBag.Authors[i].AuthorId">@ViewBag.Authors[i].AuthorName</option>
+                            }
+                        }
+                        }
+                    </select>
+                </div>
                 <div class="form-row">
                     <div class="col-6">
                         <!-- DateCreated -->
@@ -151,15 +177,15 @@
     <div class="tab-pane fade" id="product-edit-description">
         <div class="card">
             <div class="card-body">
-                <div class="form-group" >
+                <div class="form-group">
                     <label asp-for="Description" class="control-label">Description</label>
-                    <input asp-for="Description" id="description" class="form-control" hidden/>
+                    <input asp-for="Description" id="description" class="form-control" hidden />
                 </div>
                 <div id="editor">
                 </div>
-                <div class="form-group" >
+                <div class="form-group">
                     <label asp-for="SmallDescription" class="control-label">Small Description</label>
-                    <input asp-for="SmallDescription" id="smdescription" class="form-control" hidden/>
+                    <input asp-for="SmallDescription" id="smdescription" class="form-control" hidden />
                 </div>
                 <div id="smDes">
                 </div>
@@ -170,6 +196,17 @@
 
 
 @section Scripts {
+    <script>
+        const selectedAuthorID = [];
+    </script>
+    @for (int i = 0; i < ViewBag.SelectedAuthor.Count; i++)
+    {
+        <script>
+            selectedAuthorID[@i] = @ViewBag.SelectedAuthor[i].AuthorId;
+        </script>
+    }
+
+
     <script>
         function checkboxItems(inputId, inputSwitch) {
             if ($(inputId).val() == "True") {
@@ -187,8 +224,9 @@
             readOnly: true,
         });
         $('.select2').select2();
-
-
+        $('.publisher').select2();
+        $('.authors').select2();
+        $('.authors').val(selectedAuthorID).trigger("change");
         quill.root.innerHTML = jQuery('#description').val();
         quillSMDes.root.innerHTML = jQuery('#smdescription').val();
 

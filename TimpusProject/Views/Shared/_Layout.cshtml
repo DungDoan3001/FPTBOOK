@@ -75,22 +75,22 @@
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
                     </a>*@
 
-                    @if(User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated)
                     {
                         <div class="dropdown">
-                            <a class="fa fa-fw fa-user text-dark mr-3 nav-icon position-relative text-decoration-none dropdown-toggle" role="button" id="dropdownMenuLink" 
-                            data-bs-toggle="dropdown" aria-expanded="false" href="#"></a>
+                            <a class="fa fa-fw fa-user text-dark mr-3 nav-icon position-relative text-decoration-none dropdown-toggle" role="button" id="dropdownMenuLink"
+                           data-bs-toggle="dropdown" aria-expanded="false" href="#"></a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <li><a class="dropdown-item" href="/my-profile.html">My profile</a></li>
                                 <li><a class="dropdown-item" href="Log-out.html">Log out</a></li>
                             </ul>
-                        </div>  
-                    } 
+                        </div>
+                    }
                     else
                     {
                         <a class="fa fa-fw fa-user text-dark mr-3 nav-icon position-relative text-decoration-none" href="/Login.html"></a>
                     }
-                    
+
                 </div>
             </div>
 
@@ -145,10 +145,10 @@
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Products</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         @*Bị lỗi NULL khi chuyển qua RegisterAccount.html*@
-                        @*@for (int i = 0; i < ViewBag.Categories.Count; i++)
+                        @for (int i = 0; i < ViewBag.Categories.Count; i++)
                         {
                             <li><a class="text-decoration-none" href="#">@ViewBag.Categories[i].CatName</a></li>
-                        }*@
+                        }
                     </ul>
                 </div>
 
@@ -186,7 +186,8 @@
     <script src="~/assets/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/js/templatemo.js"></script>
     <script src="~/assets/js/custom.js"></script>
-
+    <script src="~/assets/list.js-master/dist/list.min.js"></script>
+    
 
 
     <!-- End Script -->

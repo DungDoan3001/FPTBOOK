@@ -34,7 +34,7 @@ namespace TimpusProject
             services.AddDbContext<TimpusDBContext>(options => options.UseSqlServer(stringConnectdb));
             services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
+            services.AddNotyf(config => { config.DurationInSeconds = 1; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
             services.AddSession();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
               .AddCookie(p =>

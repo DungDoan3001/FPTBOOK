@@ -47,12 +47,12 @@ namespace TimpusProject.Controllers
                 .ToList();
             }
 
-            PagedList<Product> models = new PagedList<Product>(lsProducts.AsQueryable(), pageNumber, pageSize);
+            //PagedList<Product> models = new PagedList<Product>(lsProducts.AsQueryable(), pageNumber, pageSize);
             ViewBag.CurrentCatId = CatId;
             ViewBag.CurrentPage = pageNumber;
 
 
-            return View(models);
+            return View(lsProducts);
         }
 
         public IActionResult Detail(int? id)
@@ -67,6 +67,7 @@ namespace TimpusProject.Controllers
             .FirstOrDefault(product => product.ProductId == id);
 
             var authors = _context.AuthorProducts
+                .Where(authors => authors.ProductId == id)
                 .Include(authors => authors.Author)
                 .ToList();
 
