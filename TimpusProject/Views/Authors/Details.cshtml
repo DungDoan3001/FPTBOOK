@@ -1,0 +1,33 @@
+﻿@model TimpusProject.Models.Author
+
+@{
+    ViewData["Title"] = Model.AuthorName + " Biography";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container pt-5 pb-5">
+    <section id="about-section">
+        <div class="container wrapabout">
+            <div class="row">
+                <div class="col-lg-6 mt-5 mt-lg-0">
+                    <figure>
+                        <img class="rounded shadow-1-strong" src="@Model.Avatar" alt="@Model.AuthorName" style="width: 50vh" />
+                    </figure>
+                </div>
+                <div class="col-lg-6 align-items-center justify-content-left d-flex mb-5 mb-lg-0">
+                    <div class="blockabout">
+                        <div class="blockabout-inner text-center text-sm-start">
+                            <div class="title-big pb-3 mb-3">
+                                <h3>ABOUT @Model.AuthorName.ToUpper()</h3>
+                            </div>
+                            <div class="description-p text-muted pe-0 pe-lg-0">
+                                @Html.Raw(Model.Biography)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

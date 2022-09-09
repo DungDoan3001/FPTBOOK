@@ -16,8 +16,8 @@ position: relative;
 
 .container-product .card-product {
 position: relative;
-width: 320px;
-height: 450px;
+width: 280px;
+height: 430px;
 background: #232323;
 border-radius: 20px;
 overflow: hidden;
@@ -60,7 +60,7 @@ position: absolute;
 top: 50%;
 left: 50%;
 transform: translate(-50%, -50%);
-width: 250px;
+width: 220px;
 }
 
 .container-product .card-product .contentBx {
@@ -81,7 +81,9 @@ height: 210px;
 position: relative;
 color: #fff;
 margin: 0;
-font-size: 20px;
+font-size: 16px;
+padding-left:5px;
+padding-right:5px;
 }
 
 .container-product .card-product .contentBx .price, .container .card .contentBx {
@@ -160,10 +162,11 @@ background: #9bdc28;
 
 
 .fixed-cate {
-    width: 15rem;
+    width: 19rem;
     background: #eeeeee;
     position: fixed;
     border-radius: 10px;
+    left: 3rem;
 }
 
 .fixed-cate h1 {
@@ -175,13 +178,18 @@ color: inherit;
 margin-left: 20px;
 padding-left: 20px;
 padding-top: 20px;
+-webkit-columns: 2;
+-moz-columns: 2;
+columns: 2;
 }
 
 .fixed-cate ul li {
-color:inherit;
+color: inherit;
 padding-left: inherit;
 list-style-type: decimal;
 z-index: 99;
+float: left;
+width:7rem;
 }
 
 .page-item .page-link {

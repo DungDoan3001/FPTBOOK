@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<TimpusProject.Models.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Shop";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,7 +15,7 @@
                 <ul class="list-unstyled templatemo-accordion">
                     @if (ViewBag.Categories.Count != 0)
                     {
-                        <a class="text-decoration-none" asp-action="Index" asp-controller="Products" asp-route-CatId="0">
+                        <a class="text-decoration-none" asp-action="Index" asp-controller="Products">
                         <li class="pb-3" style="font-size:15px !important">
                             All
                         </li>

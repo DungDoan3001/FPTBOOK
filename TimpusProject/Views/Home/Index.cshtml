@@ -2,7 +2,7 @@
 
 
 @{
-    ViewData["Title"] = "Timpus";
+    ViewData["Title"] = "FptBook";
 }
 
 @if (ViewBag.HomeFlag.Count != 0)
@@ -76,17 +76,17 @@
         <div class="container py-5">
             <div class="row text-center py-3">
                 <div class="col-lg-6 m-auto">
-                    <h1 class="h1">Best Sellers Product</h1>
+                    <h1 class="h1">Best Sellers</h1>
                     <p>
-                        Today’s featured deals and top tech. <br />
-                        This is our best selling phones - Great new deals.
+                        Today’s featured deals and top books. <br />
+                        This is our best selling books - Great new deals.
                     </p>
                 </div>
             </div>
             <div class="row justify-content-center">
                 @for (int i = 0; i < ViewBag.BestSellers.Count; i++)
                 {
-                    <div class="col-12 col-md-4 mb-4 justify-content-evenly">
+                    <div class="col-12 col-md-3 mb-4 justify-content-evenly">
                         <div class="container-product">
                             <div class="card-product">
                                 <div class="imgBx">
