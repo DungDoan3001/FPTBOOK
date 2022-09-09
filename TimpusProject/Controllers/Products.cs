@@ -21,11 +21,8 @@ namespace TimpusProject.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int page = 1, int CatId = 0)
+        public IActionResult Index(int CatId = 0)
         {
-            var pageNumber = page;
-            var pageSize = 6;
-
             var lsCategories = _context.Categories
             .AsNoTracking()
             .ToList();
@@ -47,11 +44,7 @@ namespace TimpusProject.Controllers
                 .ToList();
             }
 
-            //PagedList<Product> models = new PagedList<Product>(lsProducts.AsQueryable(), pageNumber, pageSize);
             ViewBag.CurrentCatId = CatId;
-            ViewBag.CurrentPage = pageNumber;
-
-
             return View(lsProducts);
         }
 
