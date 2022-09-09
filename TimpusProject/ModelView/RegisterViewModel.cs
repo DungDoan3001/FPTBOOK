@@ -18,6 +18,7 @@ namespace TimpusProject.ModelView
         public string Username { get; set; }
 
         [MaxLength(150)]
+        [Display(Name = "Email")]
         [Required(ErrorMessage = "Please input your Email")]
         [DataType(DataType.EmailAddress)]
         [Remote(action: "ValidateEmail", controller: "Accounts")]

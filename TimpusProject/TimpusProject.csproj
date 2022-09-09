@@ -23,4 +23,9 @@
     <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\assets\list.js-master\.circleci\config.yml" />
+    <None Include="wwwroot\assets\list.js-master\docs\.bundle\config" />
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,7 @@
-﻿@using PagedList.Core.Mvc
-@model PagedList.Core.IPagedList<TimpusProject.Models.Product>
+﻿@*@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<TimpusProject.Models.Product>*@
+
+@model IEnumerable<TimpusProject.Models.Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,14 +14,19 @@
 
         <div class="col-lg-3">
             <div class="fixed-cate">
-                <h1 class="h2 pb-4">Categories</h1>
+                <h1 class="h4 pb-4">Categories</h1>
                 <ul class="list-unstyled templatemo-accordion">
                     @if (ViewBag.Categories.Count != 0)
                     {
+                        <a class="text-decoration-none" asp-action="Index" asp-controller="Products" asp-route-CatId="0">
+                        <li class="pb-3" style="font-size:15px !important">
+                                All
+                        </li>
+                        </a>
                         @for (int i = 0; i < ViewBag.Categories.Count; i++)
                         {
                             <a class="text-decoration-none" asp-action="Index" asp-controller="Products" asp-route-CatId="@ViewBag.Categories[i].CatId">
-                            <li class="pb-3 h3">
+                            <li class="pb-3" style="font-size:15px !important">
                                     @ViewBag.Categories[i].CatName
                             </li>
                             </a>
@@ -29,35 +36,27 @@
             </div>
         </div>
 
-        <div class="col-lg-9">
-            <div class="row">
-                <div class="col-md-6">
-                    <ul class="list-inline shop-top-menu pb-3 pt-1">
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
-                        </li>
-                        @if (ViewBag.Categories.Count != 0)
-                        {
-                            @for (int i = 0; i < ViewBag.Categories.Count; i++)
-                            {
-                                <li class="list-inline-item">
-                                    <a class="h3 text-dark text-decoration-none mr-3" href="#">@ViewBag.Categories[i].CatName</a>
-                                </li>
-                            }
-                        }
-                    </ul>
+        <div class="col-lg-9" id="products">
+            <div class="row pb-5">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-2">
+                    <button class="sort btn btn-light" data-sort="productprice">
+                        Sort by Price
+                    </button>
                 </div>
-                <div class="col-md-6 pb-4">
-                    <div class="d-flex">
-                        <select class="form-control">
-                            <option>Featured</option>
-                            <option>A to Z</option>
-                            <option>Item</option>
-                        </select>
-                    </div>
+                <div class="col-lg-2">
+                    <button class="sort btn btn-light" data-sort="name">
+                        Sort by name
+                    </button>
+                </div>
+                <div class="col-lg-4">
+                    <input class="search" placeholder="Search" style="width:100%" />
                 </div>
             </div>
-            <div class="row">
+
+            <div class="list row">
+
+
                 @if (Model != null)
                 {
                     @foreach (var item in Model)
@@ -69,10 +68,10 @@
                                         <img src="@item.Thumb">
                                     </div>
                                     <div class="contentBx">
-                                        <h4>@item.ProductName</h4>
+                                        <h4 class="name">@item.ProductName</h4>
                                         <div class="price">
                                             <h3>Price :</h3>
-                                            <span>$ @item.Price</span>
+                                            <span>$ </span><span class="productprice">@item.Price</span>
                                         </div>
                                         <a asp-action="Detail" asp-controller="Products" asp-route-id="@item.ProductId">Buy Now</a>
                                     </div>
@@ -83,12 +82,26 @@
                 }
             </div>
             <div div="row">
-                <ul class="pagination pagination-lg justify-content-end">
-                    <pager class="pager-container" style="" list="@Model" asp-controller="Products" asp-route-CatId="@ViewBag.CurrentCatId" asp-action="Index"></pager>
-                </ul>
-
+                <nav>
+                    <ul class="pagination pagination-lg justify-content-end">
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
 </div>
 <!-- End Content -->
+@section Scripts {
+    <script>
+        var options = {
+            valueNames: ['name', 'productprice'],
+            page: 9,
+            pagination: {
+                item: "<li class='page-item'><a class='page page-link' href='#'></a></li>",
+                outouterWindow: 2
+            }
+        };
+
+        var userList = new List('products', options);
+    </script>
+}

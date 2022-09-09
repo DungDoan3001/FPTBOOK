@@ -42,10 +42,10 @@ namespace TimpusProject.Controllers
             var lsCategories = _context.Categories
             .AsNoTracking()
             .ToList();
+            ViewData["Categories"] = lsCategories;
 
             ViewData["HomeFlag"] = lsHomeFlagProducts;
             ViewData["BestSellers"] = lsBestSellers;
-            ViewData["Categories"] = lsCategories;
             return View();
 
         }
