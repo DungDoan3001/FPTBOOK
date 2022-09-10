@@ -1,128 +1,147 @@
 ﻿@model List<TimpusProject.ModelView.CartItem>
 @{
-    ViewData["Title"] = "Your Cart";
+    ViewData["Title"] = "Index Cart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="h-100 h-custom" style="background-color: #eee;">
+
+<section class="h-100 h-custom" style="background-color: #d2c9ff;">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col">
-        <div class="card">
-          <div class="card-body p-4">
-            <div class="row">
-              <div class="col-lg-7">
-                <h5 class="mb-3"><a href="/Products" class="text-body"><i
-                      class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
-                <hr>
-
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                  <div>
-                    <p class="mb-1">Shopping cart</p>
-                    <p class="mb-0">You have @Model.Count items in your cart</p>
+      <div class="col-12">
+        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+          <div class="card-body p-0">
+            <div class="row g-0">
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div class="d-flex justify-content-between align-items-center mb-5">
+                    <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                    <h6 class="mb-0 text-muted">@Model.Count() item(s)</h6>
                   </div>
-                </div>
-
-                @if (Model != null && Model.Count() > 0)
+                  @if (Model != null && Model.Count() > 0)
                 {
                     foreach (var item in Model)
                     {
-                         <div class="card mb-3">
-                            <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                              <div class="d-flex flex-row align-items-center">
-                                <div>
-                                  <img
-                                    src="@item.product.Thumb"
-                                    class="img-fluid rounded-3" alt="Shopping item" style="width: 6rem;">
-                                </div>
-                                <div class="ms-3">
-                                  <p>@item.product.ProductName</p>
-                                </div>
-                              </div>
-                              <div class="d-flex flex-row align-items-center">
-                                <div style="width: 8rem;">
-                                  <span class="fw-normal mb-0">Quantity: @item.amount</span>
-                                </div>
-                                <div style="width: 80px;">
-                                  <span class="mb-0">@item.product.Price.Value.ToString("#,###") $</span>
-                                </div>
-                                <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
-                              </div>
+                          <hr class="my-4">
+                          <div class="row mb-4 d-flex justify-content-between align-items-center">
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                              <img
+                                src="@item.product.Thumb"
+                                class="img-fluid rounded-3" alt="@item.product.ProductName">
                             </div>
-                          </div>
-                        </div>               
+                            <div class="col-md-3 col-lg-3 col-xl-3">
+                              <h6 class="text-black mb-0">@item.product.ProductName</h6>
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                              <button class="btn btn-link px-2"
+                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                <i class="fas fa-minus"></i>
+                              </button>
+
+                              <input class="cartItem form-control form-control-sm" id="form1" min="0" name="quantity" 
+                              value="@item.amount" type="number" data-mahh="@item.product.ProductId" data-dongia="@item.product.Price"/>
+
+                              <button class="btn btn-link px-2"
+                                onclick="this.parentNode.querySelector('input[type=number]').stepUp() = @item.amount">
+                                <i class="fas fa-plus"></i>
+                              </button>
+                            </div>
+                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                              <h6 class="mb-0">@item.product.Price.Value.ToString("#,###") $</h6>
+                            </div>
+                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                              <a class="removecart text-muted" data-mahh="@item.product.ProductId">
+                                    <i class="fas fa-times"></i>
+                              </a>
+                            </div>
+                          </div>                  
                     }
                 }
-
-              </div>
-              <div class="col-lg-5">
-
-                <div class="card text-white rounded-3" style="background-color: #5c5a5a ">
-                  <div class="card-body">
-                    <p class="small mb-2">Card type</p>
-                    <a href="#!" type="submit" class="text-white"><i
-                        class="fab fa-cc-mastercard fa-2x me-2"></i></a>
-                    <a href="#!" type="submit" class="text-white"><i
-                        class="fab fa-cc-visa fa-2x me-2"></i></a>
-                    <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>
-
-                    <form class="mt-4">
-                      <div class="form-outline form-white mb-4">
-                        <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
-                          placeholder="Cardholder's Name" />
-                        <label class="form-label" for="typeName">Cardholder's Name</label>
-                      </div>
-
-                      <div class="form-outline form-white mb-4">
-                        <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
-                          placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" />
-                        <label class="form-label" for="typeText">Card Number</label>
-                      </div>
-
-                      <div class="row mb-4">
-                        <div class="col-md-6">
-                          <div class="form-outline form-white">
-                            <input type="text" id="typeExp" class="form-control form-control-lg"
-                              placeholder="MM/YYYY" size="7" id="exp" minlength="7" maxlength="7" />
-                            <label class="form-label" for="typeExp">Expiration</label>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-outline form-white">
-                            <input type="password" id="typeText" class="form-control form-control-lg"
-                              placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
-                            <label class="form-label" for="typeText">Cvv</label>
-                          </div>
-                        </div>
-                      </div>
-
-                    </form>
-
-                    <hr class="my-4">
-
-                    <div class="d-flex justify-content-between">
-                      <p class="mb-2">Total value:</p>
-                      <p class="mb-2">@Model.Sum(x => x.TotalMoney).ToString("#,###") $</p>
-                    </div>
-
-                    <button type="button" class="btn btn-info btn-block btn-lg">
-                      <div class="d-flex justify-content-between">
-
-                        <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
-                      </div>
-                    </button>
-
+                  <hr class="my-4">
+                  <div class="pt-5">
+                    <h6 class="mb-0"><a href="/products" class="text-body"><i
+                          class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
                   </div>
                 </div>
-
               </div>
+              <div class="col-lg-4 bg-grey">
+                <div class="p-5">
+                  <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                  <hr class="my-4">
 
+                  <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase">Total for @Model.Count() item(s)</h5>
+                    <h5>€ 132.00</h5>
+                  </div>
+
+                  <h5 class="text-uppercase mb-3">Shipping: Standard-Delivery (FREE)</h5>
+                  <hr class="my-4">
+                  <div class="d-flex justify-content-between mb-5">
+                    <h5 class="text-uppercase">Total price</h5>
+                    <h5>@Model.Sum(x => x.TotalMoney).ToString("#,###") $</h5>
+                  </div>
+
+                  <a type="button" class="btn btn-dark btn-block btn-lg"
+                    data-mdb-ripple-color="dark" href="/checkout.html">Check out</a>
+
+                </div>
+              </div>
             </div>
-
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+
+
+@section Scripts{
+<script>
+    $(function () {
+        function loadHeaderCart() {
+            $('#numberCart').load("/AjaxContent/NumberCart");
+        }
+        $(".removecart").click(function () {
+            var productid = $(this).attr("data-mahh");
+            $.ajax({
+                url: "api/cart/remove",
+                type: "POST",
+                dataType: "JSON",
+                data: { productID: productid },
+                success: function (result) {
+                    if (result.success) {
+                        loadHeaderCart();//Reload lai gio hang
+                        location.reload();
+                    }
+                },
+                error: function (rs) {
+                    alert("Remove Cart Error !")
+                }
+            });
+        });
+        $(".cartItem").click(function () {
+            var productid = $(this).attr("data-mahh");
+            var soluong = parseInt($(this).val());
+            $.ajax({
+                url: "api/cart/update",
+                type: "POST",
+                dataType: "JSON",
+                data: {
+                    productID: productid,
+                    amount: soluong
+                },
+                success: function (result) {
+                    if (result.success) {
+                        loadHeaderCart();//Reload lai gio hang
+                        window.location = 'cart.html';
+                    }
+                },
+                error: function (rs) {
+                    alert("Cập nhật Cart Error !")
+                }
+            });
+        });
+    });
+</script>
+}

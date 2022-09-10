@@ -11,7 +11,7 @@ namespace TimpusProject.Controllers.Components
     {
         public IViewComponentResult Invoke()
         {
-            var cart = HttpContext.Session.Get<List<CartItem>>("GioHang");
+            var cart = HttpContext.Session.Get<List<CartItem>>("Cart");
             return View(cart);
         }
     }

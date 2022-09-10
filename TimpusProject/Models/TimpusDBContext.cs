@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using TimpusProject.ModelView;
 
 #nullable disable
 
@@ -35,7 +34,7 @@ namespace TimpusProject.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-RRT8KOS;Database=TimpusDB;Integrated Security=true;");
+                optionsBuilder.UseSqlServer("Server=THUAN\\SQLEXPRESS;Database=TimpusDB;Integrated Security=true;");
             }
         }
 
@@ -130,9 +129,7 @@ namespace TimpusProject.Models
                     .HasMaxLength(12)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Salt)
-                    .HasMaxLength(10)
-                    .IsFixedLength(true);
+                entity.Property(e => e.Salt).HasMaxLength(10);
 
                 entity.Property(e => e.Username).HasMaxLength(255);
             });
@@ -144,6 +141,8 @@ namespace TimpusProject.Models
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
 
                 entity.Property(e => e.OrderDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Total).HasColumnType("decimal(18, 0)");
 
                 entity.Property(e => e.TransacStatusId).HasColumnName("TransacStatusID");
 
@@ -162,7 +161,11 @@ namespace TimpusProject.Models
             {
                 entity.Property(e => e.OrderDetailId).HasColumnName("OrderDetailID");
 
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
+
+                entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
 
                 entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
@@ -241,9 +244,5 @@ namespace TimpusProject.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-        public DbSet<TimpusProject.ModelView.RegisterViewModel> RegisterViewModel { get; set; }
-
-        public DbSet<TimpusProject.ModelView.LoginViewModel> LoginViewModel { get; set; }
     }
 }

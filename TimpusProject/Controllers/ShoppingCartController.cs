@@ -46,6 +46,7 @@ namespace TimpusProject.Controllers
                 if (item != null) // da co => cap nhat so luong
                 {
                     item.amount = item.amount + amount.Value;
+                    _notyfService.Success("Add product successful!");
                     //luu lai session
                     HttpContext.Session.Set<List<CartItem>>("Cart", cart);
                 }
@@ -58,10 +59,11 @@ namespace TimpusProject.Controllers
                         product = product
                     };
                     cart.Add(item);//Them vao gio
+                    _notyfService.Success("Add product successful!");
                 }
                 //Luu lai Session
-                HttpContext.Session.Set<List<CartItem>>("Cart", cart);
                 _notyfService.Success("Add product successful!");
+                HttpContext.Session.Set<List<CartItem>>("Cart", cart);
                 return Json(new { success = true });
             }
             catch
