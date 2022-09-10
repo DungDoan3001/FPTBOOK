@@ -70,7 +70,7 @@
 
                                     <div class="d-flex justify-content-between mb-4">
                                         <h5 class="text-uppercase">Total for @Model.Count() item(s)</h5>
-                                        <h5>€ 132.00</h5>
+                                        <h5>@Model.Sum(x => x.TotalMoney).ToString("#,###") $</h5>
                                     </div>
 
                                     <h5 class="text-uppercase mb-3">Shipping: Standard-Delivery (FREE)</h5>

@@ -1,0 +1,141 @@
+﻿@model TimpusProject.Models.Order
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-header">
+    <h2 class="header-title">All Orders</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Orders Management</a>
+            <span class="breadcrumb-item active">All Orders</span>
+        </nav>
+    </div>
+</div>
+
+<a asp-action="index"><p class="h6 font-weight-light text-primary"><i class="anticon anticon-arrow-left"></i> Back to orders</p></a>
+
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div id="invoice" class="p-h-30">
+                <div class="m-t-15 lh-2">
+                    <div class="inline-block">
+                        <img class="img-fluid" src="~/admin_assets/images/logo/FPTBOOK.png" alt="">
+                        <address class="p-l-10">
+                            <span class="font-weight-semibold text-dark">FPTBOOK Store</span><br>
+                            <span>20 Cong Hoa, Ward 12</span><br>
+                            <span>Tan Binh, HCMC</span><br>
+                            <abbr class="text-dark" title="Phone">Phone:</abbr>
+                            <span>0933-108-554</span>
+                        </address>
+                    </div>
+                    <div class="float-right">
+                        <h2>INVOICE</h2>
+                    </div>
+                </div>
+                <div class="row m-t-20 lh-2">
+                    <div class="col-sm-9">
+                        <h3 class="p-l-10 m-t-10">Invoice To:</h3>
+                        <address class="p-l-10 m-t-10">
+                            <span class="font-weight-semibold text-dark">@Model.Customer.FullName</span><br>
+                            <span>@Model.Address</span><br>
+                        </address>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="m-t-80">
+                            <div class="text-dark text-uppercase d-inline-block">
+                                <span class="font-weight-semibold text-dark">Invoice No :</span>
+                            </div>
+                            <div class="float-right">#@Model.OrderId</div>
+                        </div>
+                        <div>
+                            <div class="text-dark text-uppercase d-inline-block">
+                                <span class="font-weight-semibold text-dark">Status :</span>
+                            </div>
+                            <div class="float-right">@Model.TransacStatus.Status</div>
+                        </div>
+                        <div>
+                            <div class="text-dark text-uppercase d-inline-block">
+                                <span class="font-weight-semibold text-dark">Date :</span>
+                            </div>
+                            <div class="float-right">@Model.OrderDate</div>
+                        </div>
+
+                    </div>
+                </div>
+                <hr />
+
+                <div class="m-t-20">
+                    <div class="table-responsive">
+                        <table class="table text-center">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Items</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var tableIndex = 1;
+                                }
+                                @foreach (var item in Model.OrderDetails)
+                                {
+                                    <tr>
+                                        <th>@tableIndex</th>
+                                        @{
+                                            tableIndex += 1;
+                                        }
+                                        @for (int i = 0; i < ViewBag.Products.Count; i++)
+                                        {
+                                            if (item.ProductId == ViewBag.Products[i].ProductId)
+                                            {
+                                                <th class="text-left">@ViewBag.Products[i].ProductName</th>
+                                            }
+                                        }
+                                        <th>@item.Quantity</th>
+                                        <th>@item.Price$</th>
+                                        @{
+                                            var PriceValue = item.Quantity * item.Price;
+                                        }
+                                        <th>@PriceValue$</th>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row m-t-30 lh-1-8">
+                        <div class="col-sm-12">
+                            <div class="float-right text-right">
+                                <p>Sub - Total amount: $@Model.Total.Value.ToString("#,###")</p>
+                                <p>Shipping Cost : Free </p>
+                                <hr>
+                                <h3><span class="font-weight-semibold text-dark">Total :</span> $@Model.Total.Value.ToString("#,###")</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-t-30 lh-2">
+                        <div class="col-sm-12">
+                            <div class="border-bottom p-v-20">
+                                <p class="text-opacity"><small>In exceptional circumstances, Financial Services can provide an urgent manually processed special cheque. Note, however, that urgent special cheques should be requested only on an emergency basis as manually produced cheques involve duplication of effort and considerable staff resources. Requests need to be supported by a letter explaining the circumstances to justify the special cheque payment.</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-v-20">
+                        <div class="col-sm-12">
+                            <img class="img-fluid text-opacity m-t-5" width="100" src="~/admin_assets/images/logo/FPTBOOK.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
