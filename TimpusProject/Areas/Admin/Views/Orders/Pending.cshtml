@@ -1,0 +1,98 @@
+﻿@model IEnumerable<TimpusProject.Models.Order>
+
+@{
+    ViewData["Title"] = "Pending Orders";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-header">
+    <h2 class="header-title">Pending Orders</h2>
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a class="breadcrumb-item" href="#">Orders Management</a>
+            <span class="breadcrumb-item active">Pending Orders</span>
+        </nav>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="data-table" class="table no-fotter text-center">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer Name</th>
+                        <th>Total</th>
+                        <th>Paid</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>#@item.OrderId</td>
+                                <td>@item.Customer.FullName</td>
+                                <td>@item.Total.Value.ToString("#,###") $</td>
+                                @if (item.Paid == false)
+                                {
+                                    <td>
+                                        <span class="badge badge-pill badge-red">Not Paid</span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <span class="badge badge-pill badge-green">Paid</span>
+                                    </td>
+                                }
+                                <td>
+                                    <span class="badge badge-info">@item.TransacStatus.Status</span>
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.OrderId">
+                                        <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-primary btn-rounded" data-toggle="tooltip" data-placement="top" title="View details">
+                                            <i class="anticon anticon-eye"></i>
+                                        </div>
+                                    </a>
+                                    @if (item.TransacStatusId < 3 && item.TransacStatusId > 0)
+                                    {
+                                        <a asp-action="Update" asp-route-OrderId="@item.OrderId">
+                                            <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-success btn-rounded" data-toggle="tooltip" data-placement="top" title="Update status">
+                                                <i class="anticon anticon-step-forward"></i>
+                                            </div>
+                                        </a>
+                                    }
+                                    @if (item.TransacStatusId < 3)
+                                    {
+                                        <a asp-action="Decline" asp-route-OrderId="@item.OrderId">
+                                            <div class="m-r-5 btn btn-icon btn-hover btn-tone btn-danger btn-rounded" data-toggle="tooltip" data-placement="top" title="Decline">
+                                                <i class="anticon anticon-close-circle"></i>
+                                            </div>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        $('#data-table').DataTable();
+    </script>
+}
