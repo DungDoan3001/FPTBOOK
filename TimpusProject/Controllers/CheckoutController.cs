@@ -23,7 +23,7 @@ namespace TimpusProject.Controllers
             _context = context;
             _notyfService = notyfService;
         }
-        public List<CartItem> GioHang
+        public List<CartItem> Cart
         {
             get
             {
@@ -38,9 +38,15 @@ namespace TimpusProject.Controllers
         [Route("checkout.html", Name = "Checkout")]
         public IActionResult Index(string returnUrl = null)
         {
+            var accountID = HttpContext.Session.GetString("CustomerId");
+            if (string.IsNullOrEmpty(accountID))
+            {
+                _notyfService.Warning("You need to login to order products");
+                return RedirectToAction("Login", "Accounts");
+            }
+            
             //Lay gio hang ra de xu ly
             var cart = HttpContext.Session.Get<List<CartItem>>("Cart");
-            var accountID = HttpContext.Session.GetString("CustomerId");
             BuyVM model = new BuyVM();
 
             var lsCategories = _context.Categories
@@ -66,7 +72,7 @@ namespace TimpusProject.Controllers
         public IActionResult Index(BuyVM buy)
         {
             //Lay ra gio hang de xu ly
-            var cart = HttpContext.Session.Get<List<CartItem>>("GioHang");
+            var cart = HttpContext.Session.Get<List<CartItem>>("Cart");
             var accountID = HttpContext.Session.GetString("CustomerId");
             BuyVM model = new BuyVM();
             if (accountID != null)
@@ -77,7 +83,6 @@ namespace TimpusProject.Controllers
                 model.Email = customer.Email;
                 model.Phone = customer.Phone;
                 model.Address = customer.Address;
-
                 customer.Address = buy.Address;
                 _context.Update(customer);
                 _context.SaveChanges();
@@ -85,10 +90,9 @@ namespace TimpusProject.Controllers
             try
             {
                 if (ModelState.IsValid)
-                {
+                    {
                     //Khoi tao don hang
                     Order order = new Order();
-                    
                     order.CustomerId = model.CustomerId;
                     order.Address = model.Address;
                     order.OrderDate = DateTime.Now;

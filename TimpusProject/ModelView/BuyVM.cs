@@ -14,7 +14,5 @@ namespace TimpusProject.ModelView
         public string Phone { get; set; }
         [Required(ErrorMessage = "Please input your Delivery Address")]
         public string Address { get; set; }
-        public int PaymentID { get; set; }
-        public string Note { get; set; }
     }
 }
