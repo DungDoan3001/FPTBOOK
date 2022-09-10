@@ -15,26 +15,25 @@ namespace TimpusProject.Areas.Admin.Controllers
     {
         private readonly TimpusDBContext _context;
         public INotyfService _notyfService { get; }
-        public HomeController(TimpusDBContext context, INotyfService notyfService)
+        public HomeController(TimpusDBContext context, INotyfService _notifyService)
         {
             _context = context;
-            _notyfService = notyfService;
+            _notyfService = _notifyService;
         }
         public IActionResult Index()
         {
-            var accountID = HttpContext.Session.GetString("AccountId");
-            if (string.IsNullOrEmpty(accountID))
+            var LoggedaccountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(LoggedaccountID))
             {
                 _notyfService.Warning("You need to login with admin account");
                 return RedirectToAction("Login", "LoginAdmin");
             }
-            int id = Int32.Parse(accountID);
-            List<Account> lsAccount = new List<Account>();
-            lsAccount = _context.Accounts
+            int Loggedid = Int32.Parse(LoggedaccountID);
+            var LoggedAccount = _context.Accounts
                     .AsNoTracking()
-                    .Where(account => account.AccountId == id)
-                    .ToList();
-            ViewBag.Account = lsAccount;
+                    .Include(account => account.Role)
+                    .FirstOrDefault(account => account.AccountId == Loggedid);
+            ViewBag.Account = LoggedAccount;
             return View();
         }
     }

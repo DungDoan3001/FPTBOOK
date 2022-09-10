@@ -26,12 +26,18 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Products
         public IActionResult Index(int CatId = 0, int Active = 0)
         {
-            var accountID = HttpContext.Session.GetString("AccountId");
-            if (string.IsNullOrEmpty(accountID))
+            var LoggedaccountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(LoggedaccountID))
             {
                 _notifyService.Warning("You need to login with admin account");
                 return RedirectToAction("Login", "LoginAdmin");
             }
+            int Loggedid = Int32.Parse(LoggedaccountID);
+            var LoggedAccount = _context.Accounts
+                    .AsNoTracking()
+                    .Include(account => account.Role)
+                    .FirstOrDefault(account => account.AccountId == Loggedid);
+            ViewBag.Account = LoggedAccount;
 
             List<Product> lsProducts = new List<Product>();
 
@@ -140,13 +146,18 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            var accountID = HttpContext.Session.GetString("AccountId");
-            if (string.IsNullOrEmpty(accountID))
+            var LoggedaccountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(LoggedaccountID))
             {
                 _notifyService.Warning("You need to login with admin account");
                 return RedirectToAction("Login", "LoginAdmin");
             }
-
+            int Loggedid = Int32.Parse(LoggedaccountID);
+            var LoggedAccount = _context.Accounts
+                    .AsNoTracking()
+                    .Include(account => account.Role)
+                    .FirstOrDefault(account => account.AccountId == Loggedid);
+            ViewBag.Account = LoggedAccount;
             if (id == null)
             {
                 return NotFound();
@@ -183,12 +194,18 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Products/Create
         public IActionResult Create()
         {
-            var accountID = HttpContext.Session.GetString("AccountId");
-            if (string.IsNullOrEmpty(accountID))
+            var LoggedaccountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(LoggedaccountID))
             {
                 _notifyService.Warning("You need to login with admin account");
                 return RedirectToAction("Login", "LoginAdmin");
             }
+            int Loggedid = Int32.Parse(LoggedaccountID);
+            var LoggedAccount = _context.Accounts
+                    .AsNoTracking()
+                    .Include(account => account.Role)
+                    .FirstOrDefault(account => account.AccountId == Loggedid);
+            ViewBag.Account = LoggedAccount;
 
             var authors = _context.Authors
                 .AsNoTracking()
@@ -207,6 +224,19 @@ namespace TimpusProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProductId,ProductName,Description,CatId,Price,Thumb,DateCreated,DateModified,BestSellers,HomeFlag,Active,UnitInStock,SmallDescription,PublisherId,Isbn")] Product product, List<int> authors)
         {
+            var LoggedaccountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(LoggedaccountID))
+            {
+                _notifyService.Warning("You need to login with admin account");
+                return RedirectToAction("Login", "LoginAdmin");
+            }
+            int Loggedid = Int32.Parse(LoggedaccountID);
+            var LoggedAccount = _context.Accounts
+                    .AsNoTracking()
+                    .Include(account => account.Role)
+                    .FirstOrDefault(account => account.AccountId == Loggedid);
+            ViewBag.Account = LoggedAccount;
+
             if (ModelState.IsValid)
             {
                 _context.Products.Add(product);
@@ -237,12 +267,18 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var accountID = HttpContext.Session.GetString("AccountId");
-            if (string.IsNullOrEmpty(accountID))
+            var LoggedaccountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(LoggedaccountID))
             {
                 _notifyService.Warning("You need to login with admin account");
                 return RedirectToAction("Login", "LoginAdmin");
             }
+            int Loggedid = Int32.Parse(LoggedaccountID);
+            var LoggedAccount = _context.Accounts
+                    .AsNoTracking()
+                    .Include(account => account.Role)
+                    .FirstOrDefault(account => account.AccountId == Loggedid);
+            ViewBag.Account = LoggedAccount;
 
             if (id == null)
             {
@@ -280,6 +316,19 @@ namespace TimpusProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,Description,CatId,Price,Thumb,DateCreated,DateModified,BestSellers,HomeFlag,Active,UnitInStock,SmallDescription,PublisherId,Isbn")] Product product, List<int> authors)
         {
+            var LoggedaccountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(LoggedaccountID))
+            {
+                _notifyService.Warning("You need to login with admin account");
+                return RedirectToAction("Login", "LoginAdmin");
+            }
+            int Loggedid = Int32.Parse(LoggedaccountID);
+            var LoggedAccount = _context.Accounts
+                    .AsNoTracking()
+                    .Include(account => account.Role)
+                    .FirstOrDefault(account => account.AccountId == Loggedid);
+            ViewBag.Account = LoggedAccount;
+
             if (id != product.ProductId)
             {
                 return NotFound();
@@ -327,12 +376,18 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            var accountID = HttpContext.Session.GetString("AccountId");
-            if (string.IsNullOrEmpty(accountID))
+            var LoggedaccountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(LoggedaccountID))
             {
                 _notifyService.Warning("You need to login with admin account");
                 return RedirectToAction("Login", "LoginAdmin");
             }
+            int Loggedid = Int32.Parse(LoggedaccountID);
+            var LoggedAccount = _context.Accounts
+                    .AsNoTracking()
+                    .Include(account => account.Role)
+                    .FirstOrDefault(account => account.AccountId == Loggedid);
+            ViewBag.Account = LoggedAccount;
 
             if (id == null)
             {
