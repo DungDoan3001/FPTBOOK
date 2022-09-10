@@ -236,3 +236,27 @@ padding-left: 3px;
 content: "\002B07";
 padding-left: 3px
 }
+
+
+
+.top {
+    --offset: 50px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    margin-right: 10px;
+    place-self: flex-end;
+    margin-top: calc(100vh + var(--offset));
+    /* visual styling */
+    text-decoration: none;
+    padding: 10px;
+    font-family: sans-serif;
+    background: #BCEE68;
+    color: black;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+
+    .top:hover {
+        color: black;
+    }
