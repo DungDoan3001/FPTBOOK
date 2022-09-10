@@ -110,8 +110,8 @@ namespace TimpusProject.Controllers
                         orderDetail.OrderId = order.OrderId;
                         orderDetail.ProductId = item.product.ProductId;
                         orderDetail.Quantity = item.amount;
-                        orderDetail.Total = order.Total;
                         orderDetail.Price = item.product.Price;
+                        orderDetail.Total = item.amount * item.product.Price;
                         orderDetail.CreateDate = DateTime.Now;
                         _context.Add(orderDetail);
                     }

@@ -1,14 +1,13 @@
 ﻿@model TimpusProject.ModelView.ViewOrders
 @{
-    var TotalPriceOrder = Model.OrderDetails.Sum(x => x.Total).Value.ToString("#,###");
-
+    var total = Model.OrderDetails.Sum(x => x.Total).Value.ToString("#,###");
 }
 
 <h3>Order information: #@Model.Orders.OrderId</h3>
 <br />
-<p>Order date: <strong> @Model.Orders.OrderDate</strong></p>
-<p>Order status: <strong> @Model.Orders.TransacStatus.Status</strong></p>
-<p>Total price of order: <strong> @TotalPriceOrder $</strong></p>
+<p>Order date: @Model.Orders.OrderDate</p>
+<p>Order status: @Model.Orders.TransacStatus.Status</p>
+<p>Total: <strong> @total $</strong></p>
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover">
@@ -27,8 +26,8 @@
                         <td>@item.ProductId</td>
                         <td>@item.Product.ProductName</td>
                         <td>@item.Quantity</td>
-                        <td>@item.Product.Price $</td>
-                        <td>@item.Total $</td>
+                        <td>@item.Product.ProductName</td>
+                        <td>@item.Total.Value.ToString("#,###") $</td>
                     </tr>
                 }
         </tbody>

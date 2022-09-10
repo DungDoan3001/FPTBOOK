@@ -36,7 +36,7 @@ namespace TimpusProject.Controllers
                 var customer = _context.Customers.AsNoTracking().SingleOrDefault(x => x.CustomerId == Convert.ToInt32(accountID));
                 if (customer == null) return NotFound();
                 var orders = await _context.Orders
-                    .Include(x => x.TransacStatusId)
+                    .Include(x => x.TransacStatus)
                     .FirstOrDefaultAsync(m => m.OrderId == id && Convert.ToInt32(accountID) == m.CustomerId);
                 if (orders == null) return NotFound();
 
@@ -49,8 +49,7 @@ namespace TimpusProject.Controllers
                 ViewOrders Orders = new ViewOrders();
                 Orders.Orders = orders;
                 Orders.OrderDetails = orderDetails;
-                return PartialView("Details", orders);
-
+                return PartialView("Details", Orders);
             }
             catch
             {
