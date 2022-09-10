@@ -29,8 +29,8 @@
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h1 align-self-center" asp-action="index" asp-controller="Home" asp-area="">
-                Zay
+            <a class="navbar-brand text-success logo h2 align-self-center" asp-action="index" asp-controller="Home" asp-area="">
+                FPTBOOK
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,40 +41,26 @@
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="About" asp-controller="Home">About</a>
+                            <a class="nav-link" asp-controller="Products" asp-action="Index">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Products" asp-action="Index">Shop</a>
+                            <a class="nav-link" asp-action="About" asp-controller="Home">About</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-action="Contact" asp-controller="Home">Contact</a>
                         </li>
                     </ul>
                 </div>
-                <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                            <div class="input-group-text">
-                                <i class="fa fa-fw fa-search"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a>
+                <div class="navbar align-self-center d-flex w-90">
                     @await Component.InvokeAsync("NumberCart")
                     
                     @if (User.Identity.IsAuthenticated)
                     {
                         <div class="dropdown">
-                            <a class="fa fa-fw fa-user text-dark mr-3 nav-icon position-relative text-decoration-none dropdown-toggle" role="button" id="dropdownMenuLink"
+                            <a class="fa fa-fw fa-user text-dark nav-icon text-decoration-none dropdown-toggle" role="button" id="dropdownMenuLink"
                            data-bs-toggle="dropdown" aria-expanded="false" href="#"></a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <li><a class="dropdown-item" href="/my-profile.html">My profile</a></li>
@@ -84,7 +70,7 @@
                     }
                     else
                     {
-                        <a class="fa fa-fw fa-user text-dark mr-3 nav-icon position-relative text-decoration-none" href="/Login.html"></a>
+                        <a class="fa fa-fw fa-user text-dark nav-icon text-decoration-none" href="/Login.html"></a>
                     }
 
                 </div>
@@ -93,23 +79,7 @@
         </div>
     </nav>
     <!-- Close Header -->
-    <!-- Search Modal -->
-
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+    
 
     @RenderBody()
 
@@ -120,7 +90,7 @@
             <div class="row">
 
                 <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">Zay Shop</h2>
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">FPTBOOK STORE</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         <li>
                             <i class="fas fa-map-marker-alt fa-fw"></i>
@@ -132,7 +102,7 @@
                         </li>
                         <li>
                             <i class="fa fa-envelope fa-fw"></i>
-                            <a class="text-decoration-none" href="mailto:Contact&#64;Timpus.com">Contact&#64;Timpus.com</a>
+                            <a class="text-decoration-none" href="mailto:Contact&#64;fptbook.com">Contact&#64;Fptbook.com</a>
                         </li>
                     </ul>
                 </div>
@@ -143,7 +113,7 @@
                         @*Bị lỗi NULL khi chuyển qua RegisterAccount.html*@
                         @for (int i = 0; i < ViewBag.Categories.Count; i++)
                         {
-                            <li><a class="text-decoration-none" href="#">@ViewBag.Categories[i].CatName</a></li>
+                            <li><a class="text-decoration-none" asp-action="Index" asp-controller="Products" asp-route-CatId="@ViewBag.Categories[i].CatId">@ViewBag.Categories[i].CatName</a></li>
                         }
                     </ul>
                 </div>
@@ -151,9 +121,9 @@
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Home</a></li>
-                        <li><a class="text-decoration-none" href="#">About Us</a></li>
-                        <li><a class="text-decoration-none" href="#">Contact</a></li>
+                        <li><a class="text-decoration-none" asp-action="Index" asp-controller="Home">Home</a></li>
+                        <li><a class="text-decoration-none" asp-action="About" asp-controller="Home">About Us</a></li>
+                        <li><a class="text-decoration-none" asp-action="Contact" asp-controller="Home">Contact</a></li>
                     </ul>
                 </div>
 
@@ -168,13 +138,21 @@
                             Copyright &copy;
                             <script>
                                 document.write(new Date().getFullYear());
-                            </script> Timpus.
+                            </script> FPTBOOK.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
+
+
+
+    <div>
+             <a href="#" class="top"><i class="fas fa-solid fa-arrow-up"></i></a>
+             
+    </div>
+
     <!-- End Footer -->
     <!-- Start Script -->
     <script src="~/assets/js/jquery-1.11.0.min.js"></script>

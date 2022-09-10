@@ -1,7 +1,7 @@
 ﻿@model TimpusProject.Models.Product
 
 @{
-    ViewData["Title"] = "Detail";
+    ViewData["Title"] = Model.ProductName + " Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -33,7 +33,11 @@
                                 <h6>Category:</h6>
                             </li>
                             <li class="list-inline-item">
-                                <p class="text-muted"><strong>@Model.Cat.CatName</strong></p>
+                                <a class="text-secondary" asp-action="Index" asp-controller="Products" asp-route-CatId="@Model.CatId">
+                                    <p>
+                                        <strong>@Model.Cat.CatName</strong>
+                                    </p>
+                                </a>
                             </li>
                         </ul>
                         <ul class="list-inline">
@@ -50,10 +54,12 @@
                             </li>
                             @for (int i = 0; i < ViewBag.Authors.Count; i++)
                             {
+                                <a asp-action="Details" asp-controller="Authors" asp-route-id="@ViewBag.Authors[i].AuthorId">
                                 <li class="list-inline-item">
                                     <img src="@ViewBag.Authors[i].Author.Avatar" class="rounded-circle" style="width: 50px; height: 50px"
                                      alt="Avatar" data-bs-toggle="tooltip" data-bs-placement="top" title="@ViewBag.Authors[i].Author.AuthorName" />
                                 </li>
+                                </a>
                             }
                         </ul>
 
@@ -85,59 +91,59 @@
 </section>
 <!-- Close Content -->
 @section Scripts{
-<script>
-    $(document).ready(function () {
-        $(function () {
-            $(".add-to-cart").click(function () {
-                var productid = $('#ProductId').val();
-                var amount = $('#txtsoLuong').val();
-                $.ajax({
-                    url: '/api/cart/add',
-                    type: "POST",
-                    dataType: "JSON",
-                    data: {
-                        productID: productid,
-                        amount: amount
-                    },
-                    success: function (response) {
-                        if (response.result == 'Redirect') {
-                            window.location = response.url;
+    <script>
+        $(document).ready(function() {
+            $(function() {
+                $(".add-to-cart").click(function() {
+                    var productid = $('#ProductId').val();
+                    var amount = $('#txtsoLuong').val();
+                    $.ajax({
+                        url: '/api/cart/add',
+                        type: "POST",
+                        dataType: "JSON",
+                        data: {
+                            productID: productid,
+                            amount: amount
+                        },
+                        success: function(response) {
+                            if (response.result == 'Redirect') {
+                                window.location = response.url;
+                            }
+                            else {
+                                loadHeaderCart(); //Add Product success
+                                location.reload();
+                            }
+                            console.log(response); // log to the console to see whether it worked
+                        },
+                        error: function(error) {
+                            alert("There was an error posting the data to the server: " + error.responseText);
                         }
-                        else {
-                            loadHeaderCart(); //Add Product success
-                            location.reload();
-                        }
-                        console.log(response); // log to the console to see whether it worked
-                    },
-                    error: function (error) {
-                        alert("There was an error posting the data to the server: " + error.responseText);
-                    }
+                    });
                 });
-            });
 
-            @*$(".removecart").click(function () {
+        @*$(".removecart").click(function () {
                 var productid = $(this).attr("data-productid");
                 $.ajax({
-                    url: "api/cart/remove",
-                    type: "POST",
-                    dataType: "JSON",
-                    data: { productID: productid },
-                    success: function (result) {
-                        if (result.success) {
-                            loadHeaderCart();//Reload lai gio hang
-                            location.reload();
-                        }
-                    },
-                    error: function (rs) {
-                        alert("Remove Cart Error !")
-                    }
+                url: "api/cart/remove",
+                type: "POST",
+                dataType: "JSON",
+                data: { productID: productid },
+                success: function (result) {
+                if (result.success) {
+                loadHeaderCart();//Reload lai gio hang
+                location.reload();
+                }
+                },
+                error: function (rs) {
+                alert("Remove Cart Error !")
+                }
                 });
-            });*@
+                });*@
+                        });
+            function loadHeaderCart() {
+                $('#numberCart').load("/AjaxContent/NumberCart");
+            }
         });
-        function loadHeaderCart() {
-            $('#numberCart').load("/AjaxContent/NumberCart");
-        }
-    });
-</script>
+    </script>
 
 }
