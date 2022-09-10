@@ -1,6 +1,6 @@
 ﻿@model List<TimpusProject.ModelView.CartItem>
 @{
-    ViewData["Title"] = "Index Cart";
+    ViewData["Title"] = "Your cart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,35 +15,49 @@
                             <div class="col-lg-8">
                                 <div class="p-5">
                                     <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                                        <h3 class="fw-bold mb-0 text-black">Shopping Cart</h3>
                                         <h6 class="mb-0 text-muted">@Model.Count() item(s)</h6>
+                                    </div>
+                                    <div class="row text-center">
+                                        <div class="col-md-2">Avatar</div>
+                                        <div class="col-md-3">Book Name</div>
+                                        <div class="col-md-2">Quantity</div>
+                                        <div class="col-md-2">Price</div>
+                                        <div class="col-md-2">Total</div>
+                                        <div class="col-md-1">#</div>
                                     </div>
                                     @if (Model != null && Model.Count() > 0)
                                     {
                                         foreach (var item in Model)
                                         {
                                             <hr class="my-4">
-                                            <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                            <div class="row mb-4 text-center d-flex justify-content-between align-items-center">
+                                                <div class="col-md-2">
                                                     <img src="@item.product.Thumb"
                                                  class="img-fluid rounded-3" alt="@item.product.ProductName">
                                                 </div>
-                                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                                <div class="col-md-3">
                                                     <h6 class="text-black mb-0">@item.product.ProductName</h6>
                                                 </div>
 
-                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                <div class="col-md-2">
                                                     <div class="input-group">
                                                         <span class="input-group-text" id="inputGroup-sizing-sm" style="font-size:0.6rem">Qty</span>
                                                         <input class="cartItem form-control form-control-sm" id="form1" min="1" name="quantity"
-                                                       value="@item.amount" type="number" data-mahh="@item.product.ProductId" data-dongia="@item.product.Price" style="width:4rem" />
+                                                       value="@item.amount" type="number" data-mahh="@item.product.ProductId" data-dongia="@item.product.Price" />
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                <div class="col-md-2">
                                                     <h6 class="mb-0">@item.product.Price.Value.ToString("#,###") $</h6>
                                                 </div>
-                                                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                @{
+                                                    var totalPrice = item.amount * item.product.Price;
+                                                }
+                                                <div class="col-md-2">
+                                                    <h6 class="mb-0">@totalPrice.Value.ToString("#,###") $</h6>
+                                                </div>
+                                                <div class="col-md-1">
                                                     <a class="removecart text-muted" data-mahh="@item.product.ProductId">
                                                         <i class="fas fa-times"></i>
                                                     </a>
@@ -52,6 +66,14 @@
                                         }
                                     }
                                     <hr class="my-4">
+                                    <div class="row text-center">
+                                        <div class="col-md-2">Avatar</div>
+                                        <div class="col-md-3">Book Name</div>
+                                        <div class="col-md-2">Quantity</div>
+                                        <div class="col-md-2">Price</div>
+                                        <div class="col-md-2">Total</div>
+                                        <div class="col-md-1">#</div>
+                                    </div>
                                     <div class="pt-5">
                                         <h6 class="mb-0">
                                             <a href="/products" class="text-body">
@@ -67,15 +89,15 @@
                                     <hr class="my-4">
 
                                     <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="text-uppercase">Total for @Model.Count() item(s)</h5>
-                                        <h5>@Model.Sum(x => x.TotalMoney).ToString("#,###") $</h5>
+                                        <h6 class="text-uppercase">Total for @Model.Count() item(s)</h6>
+                                        <h6>@Model.Sum(x => x.TotalMoney).ToString("#,###") $</h6>
                                     </div>
 
-                                    <h5 class="text-uppercase mb-3">Shipping: Standard-Delivery (FREE)</h5>
+                                    <h6 class="text-uppercase mb-3">Shipping: Standard-Delivery (FREE)</h6>
                                     <hr class="my-4">
                                     <div class="d-flex justify-content-between mb-5">
-                                        <h5 class="text-uppercase">Total price</h5>
-                                        <h5>@Model.Sum(x => x.TotalMoney).ToString("#,###") $</h5>
+                                        <h6 class="text-uppercase">Total price</h6>
+                                        <h6>@Model.Sum(x => x.TotalMoney).ToString("#,###") $</h6>
                                     </div>
 
                                     <a type="button" class="btn btn-dark btn-block btn-lg"
