@@ -82,8 +82,8 @@ position: relative;
 color: #fff;
 margin: 0;
 font-size: 16px;
-padding-left:5px;
-padding-right:5px;
+padding-left: 5px;
+padding-right: 5px;
 }
 
 .container-product .card-product .contentBx .price, .container .card .contentBx {
@@ -173,6 +173,7 @@ left: 3rem;
 padding-left: 20px;
 padding-top: 20px;
 }
+
 .fixed-cate ul {
 color: inherit;
 margin-left: 20px;
@@ -189,7 +190,7 @@ padding-left: inherit;
 list-style-type: decimal;
 z-index: 99;
 float: left;
-width:7rem;
+width: 7rem;
 }
 
 .page-item .page-link {
@@ -207,4 +208,31 @@ border-color: #69bb7e !important;
 .h-custom {
 height: 100vh !important;
 }
+}
+
+.sort.asc, .sort.desc {
+background-color: #198754;
+color: white;
+border: none;
+}
+
+.sort.asc:hover, .sort.desc:hover {
+background-color: #198754;
+color: white;
+border: none;
+}
+.sort.asc:focus, .sort.desc:focus {
+background-color: #198754;
+color: white;
+border: none;
+}
+
+.sort.asc::after {
+content: "\002B06";
+padding-left: 3px;
+}
+
+.sort.desc::after {
+content: "\002B07";
+padding-left: 3px
 }
