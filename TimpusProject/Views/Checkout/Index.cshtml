@@ -6,86 +6,76 @@
 }
 
 @section Styles{
-<style type="text/css">
-    .nice-select .list{
-        border-radius: 0px;
-        overflow-y: auto;
-        overflow:hidden;
-        max-height:200px;
-        overflow-y: scroll;
-    }
-    .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus{
-        color:red;
-        background:none;
-    }
-</style>
+    <style type="text/css">
+        .nice-select .list {
+            border-radius: 0px;
+            overflow-y: auto;
+            overflow: hidden;
+            max-height: 200px;
+            overflow-y: scroll;
+        }
+
+        .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus {
+            color: red;
+            background: none;
+        }
+    </style>
 }
 
 
 
 
-<main class="main-content">
-    <div class="breadcrumb-area breadcrumb-height" data-bg-image="/assets/images/banner/2-1-1920x523.jpg">
-        <div class="container h-100">
-            <div class="row h-100">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-item">
-                        <h2 class="breadcrumb-heading">PURCHASE INFORMATION</h2>
-                        <ul>
-                            <li>
-                                <a href="/">Home<i class="pe-7s-angle-right"></i></a>
-                            </li>
-                            <li>PURCHASE INFORMATION</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="checkout-area section-space-y-axis-100">
-        <div class="container">
-            <form asp-controller="Checkout" asp-action="Index" method="post">
-                <input hidden asp-for="CustomerId" />
-                <div class="row">
-                    <div class="col-lg-6 col-12">
+    <main class="main-content py-5">
+        <div class="checkout-area section-space-y-axis-100">
+            <div class="container">
+                <form asp-controller="Checkout" asp-action="Index" method="post">
+                    <input hidden asp-for="CustomerId" />
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
 
-                        <div class="checkbox-form">
-                            <h3>ORDER INFORMATION</h3>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Full name:</label>
-                                        <input asp-for="FullName" placeholder="Full name" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Phone number<span class="required">*:</span></label>
-                                        <input asp-for="Phone" placeholder="Phone number" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Delivery address<span class="required">*:</span></label>
-                                        <input asp-for="Address" placeholder="Delivery address" type="text">
+                                <div class="checkbox-form">
+                                    <h3 class="pb-3">User Information</h3>
+                                    <div>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-6 mb-3">
+                                                        <label for="FullName" class="form-label">Full Name</label>
+                                                        <input asp-for="FullName" name="FullName" class="form-control" placeholder="Full name" type="text" readonly>
+                                                    </div>
+                                                    <div class="col-6 mb-3">
+                                                        <label for="Phone" class="form-label">Phone</label>
+                                                        <input asp-for="Phone" name="Phone" class="form-control" placeholder="Phone" type="text" readonly>
+                                                    </div>
+                                                    <div class="col-12 mb-3">
+                                                        <label for="Address" class="form-label">Address</label>
+                                                        <input asp-for="Address" name="Address" class="form-control" placeholder="Address" type="text">
+                                                        <div id="emailHelp" class="h5 form-text">We'll never share your address with anyone else.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row d-flex justify-content-center py-5">
+                                <button class="btn btn-dark btn-block btn-lg" type="submit" style="width:fit-content">Order Confirmation</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-12">
-                        <div class="your-order">
-                            <h3>ORDER INFORMATION</h3>
-                            <div class="your-order-table table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th class="cart-product-name">PRODUCTS</th>
-                                            <th class="cart-product-total">PRICE</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if (Carts.Count() > 0)
+                        <div class="col-lg-6 col-12">
+                            <div class="your-order">
+                                <h3>Order Information</h3>
+                                <div class="your-order-table table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr class="py-3">
+                                                <th class="cart-product-name">Books</th>
+                                                <th class="cart-product-total">Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Carts.Count() > 0)
                                         {
                                             foreach (var item in Carts)
                                             {
@@ -100,74 +90,65 @@
                                             }
                                         }
 
-                                        
+
                                     </tbody>
                                     <tfoot>
                                         <tr class="order-total">
-                                            <th>TỔNG ĐƠN HÀNG</th>
+                                            <th class="py-3">Total Value: </th>
                                             <td><strong><span class="amount">@Carts.Sum(x => x.TotalMoney).ToString("#,##0") $</span></strong></td>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
-                            <h5 style="color:red">Please choose a payment method</h5>
+                            <h5 class="py-3" style="color:#198754">Please choose a payment method</h5>
+
                             <div class="payment-method">
                                 <div class="payment-accordion">
-                                    <div id="accordion">
-                                        <div class="card">
-                                            <div class="card-header" id="#payment-1">
-                                                <h5 class="panel-title">
-                                                    <a href="javascript:void(0)" class="" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true">
-                                                        Cash on Delivery (COD)
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapseOne" class="collapse show" data-bs-parent="#accordion">
-                                                <div class="card-body">
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingOne">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Cash On Delivery (COD)
+                                                </button>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
                                                     <p>
                                                         Customers will pay when receiving goods
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card">
-                                            <div class="card-header" id="#payment-2">
-                                                <h5 class="panel-title">
-                                                    <a href="javascript:void(0)" class="collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false">
-                                                        Bank
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapseTwo" class="collapse" data-bs-parent="#accordion">
-                                                <div class="card-body">
-                                                    <p>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingTwo">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    Bank
+                                                </button>
+                                            </h2>
+                                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <h5>
                                                         Information of bank's account
-                                                    </p>
-                                                    <p>Account holder: Bui Cong Thuan</p>
-                                                    <p>Account number: 0999999999 - VietcomBank</p>
+                                                    </h5>
+                                                    <p class="py-3">Account name: FptBook Store</p>
+                                                    <p>Account number: 999999999 - FakeBank</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card">
-                                            <div class="card-header" id="#payment-3">
-                                                <h5 class="panel-title">
-                                                    <a href="javascript:void(0)" class="collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false">
-                                                        Payment via MOMO
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                            <div id="collapseThree" class="collapse" data-bs-parent="#accordion">
-                                                <div class="card-body">
-                                                    <p>MOMO information:</p>
-                                                    <p>Account holder: Bui Cong Thuan</p>
-                                                    <p>Account number: 0999999999 - VietcomBank</p>
-
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingThree">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                    Payment via Momo
+                                                </button>
+                                            </h2>
+                                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <h5>Momo information:</h5>
+                                                    <p class="py-3">Account name: FptBook Store</p>
+                                                    <p>Account number: 999999999</p>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="order-button-payment">
-                                        <input value="ORDER CONFIRMATION" type="submit">
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +156,7 @@
                     </div>
                 </div>
             </form>
-            
+
         </div>
     </div>
 </main>
