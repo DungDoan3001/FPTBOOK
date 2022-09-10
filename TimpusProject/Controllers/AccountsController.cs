@@ -19,8 +19,6 @@ namespace TimpusProject.Controllers
     [Authorize]
     public class AccountsController : Controller
     {
-
-
         private readonly TimpusDBContext _context;
         public INotyfService _notyfService { get; }
         public AccountsController(TimpusDBContext context, INotyfService notyfService)
@@ -235,13 +233,6 @@ namespace TimpusProject.Controllers
                     {
                         _notyfService.Warning("Login information is incorrect");
                         return View(customer);
-                    }
-                    //kiem tra xem account co bi disable hay khong
-
-                    if (customers.Active == false)
-                    {
-                        _notyfService.Warning("This account has been disabled!");
-                        return RedirectToAction("Login", "Accounts");
                     }
 
                     //Luu Session MaKh

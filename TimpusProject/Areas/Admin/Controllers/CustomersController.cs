@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,12 +25,25 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Customers
         public async Task<IActionResult> Index()
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(accountID))
+            {
+                _notifyService.Warning("You need to login with admin account");
+                return RedirectToAction("Login", "LoginAdmin");
+            }
             return View(await _context.Customers.ToListAsync());
         }
 
         // GET: Admin/Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(accountID))
+            {
+                _notifyService.Warning("You need to login with admin account");
+                return RedirectToAction("Login", "LoginAdmin");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -48,6 +62,12 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Customers/Create
         public IActionResult Create()
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(accountID))
+            {
+                _notifyService.Warning("You need to login with admin account");
+                return RedirectToAction("Login", "LoginAdmin");
+            }
             return View();
         }
 
@@ -123,6 +143,13 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(accountID))
+            {
+                _notifyService.Warning("You need to login with admin account");
+                return RedirectToAction("Login", "LoginAdmin");
+            }
+
             if (id == null)
             {
                 return NotFound();

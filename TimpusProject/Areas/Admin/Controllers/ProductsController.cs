@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,13 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Products
         public IActionResult Index(int CatId = 0, int Active = 0)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(accountID))
+            {
+                _notifyService.Warning("You need to login with admin account");
+                return RedirectToAction("Login", "LoginAdmin");
+            }
+
             List<Product> lsProducts = new List<Product>();
 
             if (Active > 0 && CatId > 0)
@@ -132,6 +140,13 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(accountID))
+            {
+                _notifyService.Warning("You need to login with admin account");
+                return RedirectToAction("Login", "LoginAdmin");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -168,6 +183,13 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Products/Create
         public IActionResult Create()
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(accountID))
+            {
+                _notifyService.Warning("You need to login with admin account");
+                return RedirectToAction("Login", "LoginAdmin");
+            }
+
             var authors = _context.Authors
                 .AsNoTracking()
                 .ToList();
@@ -215,6 +237,13 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(accountID))
+            {
+                _notifyService.Warning("You need to login with admin account");
+                return RedirectToAction("Login", "LoginAdmin");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -298,6 +327,13 @@ namespace TimpusProject.Areas.Admin.Controllers
         // GET: Admin/Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (string.IsNullOrEmpty(accountID))
+            {
+                _notifyService.Warning("You need to login with admin account");
+                return RedirectToAction("Login", "LoginAdmin");
+            }
+
             if (id == null)
             {
                 return NotFound();

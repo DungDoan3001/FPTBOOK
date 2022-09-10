@@ -47,6 +47,13 @@ namespace TimpusProject.Controllers
             
             //Lay gio hang ra de xu ly
             var cart = HttpContext.Session.Get<List<CartItem>>("Cart");
+            List<CartItem> checkCart = Cart;
+            if (cart == null || checkCart.Count() == 0)
+            {
+                _notyfService.Warning("Your cart is empty! You should add more products to cart");
+                return RedirectToAction("index", "Products");
+            }
+
             BuyVM model = new BuyVM();
 
             var lsCategories = _context.Categories
