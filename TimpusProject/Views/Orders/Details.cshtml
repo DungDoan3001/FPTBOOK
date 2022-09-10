@@ -4,33 +4,46 @@
 
 }
 
-<h3>Order information: #@Model.Orders.OrderId</h3>
-<br />
-<p>Order date: <strong> @Model.Orders.OrderDate</strong></p>
-<p>Order status: <strong> @Model.Orders.TransacStatus.Status</strong></p>
-<p>Total price of order: <strong> @TotalPriceOrder $</strong></p>
-
-<div class="table-responsive">
-    <table class="table table-bordered table-hover">
-        <tbody>
-            <tr>
-                <th>#</th>
-                <th>Product name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-            </tr>
-
-                @foreach (var item in Model.OrderDetails)
-                {
-                    <tr>
-                        <td>@item.ProductId</td>
-                        <td>@item.Product.ProductName</td>
-                        <td>@item.Quantity</td>
-                        <td>@item.Product.Price $</td>
-                        <td>@item.Total $</td>
+<div class="card">
+    <div class="card-body">
+        <div class="fst-italic font-monospace">
+            <div class="row">
+                <div class="col-lg-8">
+                    <p class="h3 fw-bold">Order information: #@Model.Orders.OrderId</h3>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <p class="h3 fw-bold">Invoice</p>
+                </div>
+            </div>
+            <hr />
+            <p>Order date: <strong> @Model.Orders.OrderDate</strong></p>
+            <p>Order status: <strong> @Model.Orders.TransacStatus.Status</strong></p>
+            <p>Total price of order: <strong> @TotalPriceOrder $</strong></p>
+        </div>
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <tbody>
+                    <tr class="fst-italic font-monospace fs-6 text-center table-primary">
+                        <th>#</th>
+                        <th>Product name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
                     </tr>
-                }
-        </tbody>
-    </table>
+
+                    @foreach (var item in Model.OrderDetails)
+                    {
+                        <tr class="text-muted text-center">
+                            <td>@item.ProductId</td>
+                            <td>@item.Product.ProductName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Product.Price $</td>
+                            <td>@item.Total $</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
