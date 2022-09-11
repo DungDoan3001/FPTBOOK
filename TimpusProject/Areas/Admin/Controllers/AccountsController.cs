@@ -73,15 +73,8 @@ namespace TimpusProject.Areas.Admin.Controllers
                     .ToList();
             }
 
-            int id = Int32.Parse(accountID);
-            var checkRole = _context.Accounts
-                .Include(r => r.Role)
-                .FirstOrDefault(r => r.AccountId == id);
-
 
             PagedList<Account> models = new PagedList<Account>(lsAccounts.AsQueryable(), pageNumber, pageSize);
-
-            ViewBag.CheckRole = checkRole;
             ViewBag.CurrentRoleId = RoleId;
             ViewBag.CurrentPage = pageNumber;
             ViewData["Roles"] = new SelectList(_context.Roles, "RoleId", "RoleName", RoleId);

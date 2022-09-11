@@ -276,5 +276,50 @@ namespace TimpusProject.Controllers
             _notyfService.Success("Logout successful!");
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePasswordVM model)
+        {
+            try
+            {
+                var accountID = HttpContext.Session.GetString("CustomerId");
+                if (accountID == null)
+                {
+                    return RedirectToAction("Login", "Accounts");
+                }
+                if (model.Password != model.ConfirmPassword)
+                {
+                    _notyfService.Warning("Confirm password is wrong!");
+                    return RedirectToAction("Dashboard", "Accounts");
+                }
+                if (ModelState.IsValid)
+                {
+                    var account = _context.Customers.Find(Convert.ToInt32(accountID));
+                    if (account == null) return RedirectToAction("Login", "Accounts");
+                    var pass = (model.PasswordNow.Trim() + account.Salt.Trim()).ToMD5();
+                    if(pass == account.Password)
+                    {
+                        string passnew = (model.Password.Trim() + account.Salt.Trim()).ToMD5();
+                        account.Password = passnew;
+                        _context.Update(account);
+                        _context.SaveChanges();
+                        _notyfService.Success("Change password successful!");
+                        return RedirectToAction("Dashboard", "Accounts");
+                    }
+                    else
+                    {
+                        _notyfService.Warning("Current password is wrong!");
+                        return RedirectToAction("Dashboard", "Accounts");
+                    }
+                }
+            }
+            catch
+            {
+                _notyfService.Warning("Error found! Cannot change password!");
+                return RedirectToAction("Dashboard", "Accounts");
+            }
+            _notyfService.Warning("Cannot change password!");
+            return RedirectToAction("Dashboard", "Accounts");
+        }
     }
 }

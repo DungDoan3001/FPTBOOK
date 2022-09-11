@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<Order> listOrder = ViewBag.Order;
     var TotalPriceOrder = listOrder.Sum(x => x.Total).Value.ToString("#,###");
+    TimpusProject.ModelView.ChangePasswordVM changePassword = new TimpusProject.ModelView.ChangePasswordVM();
 }
 
 <section style="background-color: #eee">
@@ -111,6 +112,9 @@
                 </div>
             </div>
         </div>
+
+        @await Html.PartialAsync("_ChangePasswordPartialView", changePassword)
+
     </div>
 </section>
 
