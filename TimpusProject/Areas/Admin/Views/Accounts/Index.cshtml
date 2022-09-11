@@ -65,14 +65,29 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 text-right">
+        @foreach(var item in ViewBag.CheckRole)
+        {
+            if(item.RoleId == 1)
+            {
+                <div class="col-lg-4 text-right">
+                    <a asp-area="Admin" asp-controller="Accounts" asp-action="Create">
+                        <button class="btn btn-primary">
+                            <i class="anticon anticon-plus-circle m-r-5"></i>
+                            <span>Add new account</span>
+                        </button>
+                    </a>
+                </div>
+            }
+        }
+       @* <div class="col-lg-4 text-right">
             <a asp-area="Admin" asp-controller="Accounts" asp-action="Create">
                 <button class="btn btn-primary">
                     <i class="anticon anticon-plus-circle m-r-5"></i>
                     <span>Add new account</span>
                 </button>
             </a>
-        </div>
+        </div>*@
+
     </div>
 </div>
 
