@@ -24,6 +24,7 @@ namespace TimpusProject.Controllers
         public IActionResult Index(int CatId = 0)
         {
             var lsCategories = _context.Categories
+            .Where(cat => cat.Published == true)
             .AsNoTracking()
             .ToList();
 
@@ -31,15 +32,18 @@ namespace TimpusProject.Controllers
 
             List<Product> lsProducts = new List<Product>();
 
-            if(CatId != 0)
+            if (CatId != 0)
             {
                 lsProducts = _context.Products
                 .AsNoTracking()
                 .Where(product => product.CatId == CatId)
+                .Where(product => product.Cat.Published == true)
                 .ToList();
-            } else
+            }
+            else
             {
                 lsProducts = _context.Products
+                .Where(product => product.Cat.Published == true)
                 .AsNoTracking()
                 .ToList();
             }
@@ -51,11 +55,13 @@ namespace TimpusProject.Controllers
         public IActionResult Detail(int? id)
         {
             var lsCategories = _context.Categories
+            .Where(cat => cat.Published == true)
             .AsNoTracking()
             .ToList();
 
             var product = _context.Products
             .Include(product => product.Cat)
+            .Where(product => product.Cat.Published == true)
             .Include(product => product.Publisher)
             .FirstOrDefault(product => product.ProductId == id);
 

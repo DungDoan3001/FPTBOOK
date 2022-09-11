@@ -31,8 +31,10 @@ namespace TimpusProject.Controllers
         public IActionResult Dashboard()
         {
             var lsCategories = _context.Categories
+            .Where(cat => cat.Published == true)
             .AsNoTracking()
             .ToList();
+
             ViewData["Categories"] = lsCategories;
 
             var accountID = HttpContext.Session.GetString("CustomerId");
@@ -97,8 +99,10 @@ namespace TimpusProject.Controllers
         public IActionResult RegisterAccount()
         {
             var lsCategories = _context.Categories
-            .AsNoTracking()
-            .ToList();
+                        .Where(cat => cat.Published == true)
+                        .AsNoTracking()
+                        .ToList();
+
             ViewData["Categories"] = lsCategories;
 
             return View();
@@ -110,8 +114,10 @@ namespace TimpusProject.Controllers
         public async Task<IActionResult> RegisterAccount(RegisterViewModel account)
         {
             var lsCategories = _context.Categories
-            .AsNoTracking()
-            .ToList();
+                        .Where(cat => cat.Published == true)
+                        .AsNoTracking()
+                        .ToList();
+
             ViewData["Categories"] = lsCategories;
 
             try
@@ -185,8 +191,10 @@ namespace TimpusProject.Controllers
         public IActionResult Login(string returnUrl = null)
         {
             var lsCategories = _context.Categories
-            .AsNoTracking()
-            .ToList();
+                        .Where(cat => cat.Published == true)
+                        .AsNoTracking()
+                        .ToList();
+
             ViewData["Categories"] = lsCategories;
 
             var accountID = HttpContext.Session.GetString("CustomerId");
@@ -203,8 +211,10 @@ namespace TimpusProject.Controllers
         public async Task<IActionResult> Login(LoginViewModel customer, string returnUrl)
         {
             var lsCategories = _context.Categories
-            .AsNoTracking()
-            .ToList();
+                        .Where(cat => cat.Published == true)
+                        .AsNoTracking()
+                        .ToList();
+
             ViewData["Categories"] = lsCategories;
 
             try

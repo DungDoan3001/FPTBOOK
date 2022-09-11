@@ -61,6 +61,7 @@
                         </div>
                     </div>
                 </div>
+                @await Html.PartialAsync("_ChangePasswordPartialView", changePassword)
             </div>
         </div>
         <hr />
@@ -113,7 +114,6 @@
             </div>
         </div>
 
-        @await Html.PartialAsync("_ChangePasswordPartialView", changePassword)
 
     </div>
 </section>

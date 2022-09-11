@@ -51,13 +51,13 @@
 
                     <hr class="m-v-25">
 
-                    <form asp-action="Edit">
+                    <form asp-action="Edit" id="form-validation">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="AccountId" />
 
                         <div class="form-group">
                             <label asp-for="Avatar" class="control-label"></label>
-                            <input asp-for="Avatar" id="b64Img" class="form-control" readonly/>
+                            <input asp-for="Avatar" id="b64Img" class="form-control" readonly />
                             <span asp-validation-for="Avatar" class="text-danger"></span>
                         </div>
 
@@ -118,11 +118,25 @@
                             </div>
                         </div>
 
-                        <div class="form-group" hidden>
-                            <label asp-for="Password" class="control-label"></label>
-                            <input asp-for="Password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
+                        @if (ViewBag.Account.AccountId == Model.AccountId)
+                        {
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label class="font-weight-semibold" for="newPassword">Your Password:</label>
+                                    <input class="form-control" name="Password" asp-for="Password" value="@Model.Password" id="newPassword" placeholder="New Password">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                        } else
+                        {
+                            <div class="form-row" hidden>
+                                <div class="form-group col-md-3">
+                                    <label class="font-weight-semibold" for="newPassword">Your Password:</label>
+                                    <input class="form-control" name="Password" asp-for="Password" value="@Model.Password" id="newPassword" placeholder="New Password">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                        }
 
                         <div class="form-group">
                             <input type="submit" value="Save" class="btn btn-primary" />
@@ -130,34 +144,7 @@
                     </form>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Change Password</h4>
-                </div>
-                <div class="card-body">
-                    <form>
-                        <div class="form-row">
-                            <div class="form-group col-md-3">
-                                <label class="font-weight-semibold" for="oldPassword">Old Password:</label>
-                                <input type="password" class="form-control" id="oldPassword" placeholder="Old Password">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="font-weight-semibold" for="newPassword">New Password:</label>
-                                <input type="password" class="form-control" id="newPassword" placeholder="New Password">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="font-weight-semibold" for="confirmPassword">Confirm Password:</label>
-                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <button class="btn btn-primary m-t-30">Change</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 </div>
-
 

@@ -57,8 +57,10 @@ namespace TimpusProject.Controllers
             BuyVM model = new BuyVM();
 
             var lsCategories = _context.Categories
-            .AsNoTracking()
-            .ToList();
+                        .Where(cat => cat.Published == true)
+                        .AsNoTracking()
+                        .ToList();
+
             ViewData["Categories"] = lsCategories;
 
             if (accountID != null)

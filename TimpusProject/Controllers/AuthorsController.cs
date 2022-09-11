@@ -34,8 +34,10 @@ namespace TimpusProject.Controllers
             }
 
             var lsCategories = _context.Categories
-            .AsNoTracking()
-            .ToList();
+                        .Where(cat => cat.Published == true)
+                        .AsNoTracking()
+                        .ToList();
+
             ViewData["Categories"] = lsCategories;
 
             return View(author);

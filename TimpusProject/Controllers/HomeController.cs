@@ -26,6 +26,7 @@ namespace TimpusProject.Controllers
             var lsHomeFlagProducts = _context.Products
             .AsNoTracking()
             .Where(product => product.Active == true)
+            .Where(product => product.Cat.Published == true)
             .Where(product => product.HomeFlag == true)
             .Include(product => product.Cat)
             .OrderByDescending(product => product.DateModified)
@@ -34,12 +35,14 @@ namespace TimpusProject.Controllers
             var lsBestSellers = _context.Products
             .AsNoTracking()
             .Where(product => product.Active == true)
+            .Where(product => product.Cat.Published == true)
             .Where(product => product.BestSellers == true)
             .Include(product => product.Cat)
             .OrderByDescending(product => product.DateModified)
             .ToList();
 
             var lsCategories = _context.Categories
+            .Where(cat => cat.Published == true)
             .AsNoTracking()
             .ToList();
             ViewData["Categories"] = lsCategories;
@@ -87,13 +90,14 @@ namespace TimpusProject.Controllers
                 .AsNoTracking()
                 .Where(customer => (customer.Email == UsrOrEmail && customer.Active == true && customer.Password == Pwd)
                                 || (customer.Username == UsrOrEmail && customer.Active == true && customer.Password == Pwd));
-                
 
-            if(customer != null)
+
+            if (customer != null)
             {
                 Console.Write("Loged In");
                 return RedirectToAction("Index");
-            } else return RedirectToAction("Login");
+            }
+            else return RedirectToAction("Login");
         }
 
         public IActionResult Register()
