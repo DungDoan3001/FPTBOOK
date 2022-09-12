@@ -12,11 +12,11 @@ using PagedList.Core;
 
 namespace TimpusProject.Controllers
 {
-    public class Products : Controller
+    public class ProductsController : Controller
     {
         private readonly TimpusDBContext _context;
 
-        public Products(TimpusDBContext context)
+        public ProductsController(TimpusDBContext context)
         {
             _context = context;
         }
