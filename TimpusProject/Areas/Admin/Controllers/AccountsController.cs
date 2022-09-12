@@ -124,13 +124,7 @@ namespace TimpusProject.Areas.Admin.Controllers
                     .Include(account => account.Role)
                     .FirstOrDefault(account => account.AccountId == Loggedid);
             ViewBag.Account = LoggedAccount;
-
-            var accountID = HttpContext.Session.GetString("AccountId");
-            if (string.IsNullOrEmpty(accountID))
-            {
-                _notifyService.Warning("You need to login with admin account");
-                return RedirectToAction("Login", "LoginAdmin");
-            }
+            
             if (id == null)
             {
                 return NotFound();
