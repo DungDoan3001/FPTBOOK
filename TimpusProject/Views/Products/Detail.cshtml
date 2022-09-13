@@ -62,7 +62,14 @@
                                 </a>
                             }
                         </ul>
-
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <h6>Stock left:</h6>
+                            </li>
+                            <li class="list-inline-item">
+                                <p class="text-muted"><strong>@Model.UnitInStock</strong></p>
+                            </li>
+                        </ul>
                         <form action="" method="GET">
                             <input type="hidden" id="txtsoLuong" name="txtsoLuong" value="1">
                             <div class="row pb-3 add-to-cart">
@@ -120,26 +127,7 @@
                         }
                     });
                 });
-
-        @*$(".removecart").click(function () {
-                var productid = $(this).attr("data-productid");
-                $.ajax({
-                url: "api/cart/remove",
-                type: "POST",
-                dataType: "JSON",
-                data: { productID: productid },
-                success: function (result) {
-                if (result.success) {
-                loadHeaderCart();//Reload lai gio hang
-                location.reload();
-                }
-                },
-                error: function (rs) {
-                alert("Remove Cart Error !")
-                }
-                });
-                });*@
-                        });
+            });
             function loadHeaderCart() {
                 $('#numberCart').load("/AjaxContent/NumberCart");
             }

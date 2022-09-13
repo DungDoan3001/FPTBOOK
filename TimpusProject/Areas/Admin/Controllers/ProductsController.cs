@@ -40,7 +40,6 @@ namespace TimpusProject.Areas.Admin.Controllers
             ViewBag.Account = LoggedAccount;
 
             List<Product> lsProducts = new List<Product>();
-
             if (Active > 0 && CatId > 0)
             {
                 if (Active == 1)
@@ -110,7 +109,6 @@ namespace TimpusProject.Areas.Admin.Controllers
             }
 
             ViewData["CatId"] = new SelectList(_context.Categories, "CatId", "CatName", CatId);
-
             ViewData["Active"] = new SelectList(new List<SelectListItem>
             {
                 new SelectListItem{Text="Active", Value = "1"},
